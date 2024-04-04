@@ -1,0 +1,46 @@
+.header {
+  font-family: "CabinetGrotesk-Bold";
+  display: flex;
+  justify-content: space-between;
+  max-height: 40px;
+}
+
+.header__divide {
+  display: flex;
+  flex-direction: row;
+}
+
+.header__logo {
+  padding-right: 24px;
+}
+
+.header__text {
+  align-self: center;
+}
+
+.header__name {
+  padding: 0 12px 0 20px;
+}
+
+.header__profile {
+  width: 40px;
+  height: 40px;
+  transition: opacity 0.5s;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.header__profile:hover {
+  opacity: 0.8;
+}
+
+.header__button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.5s;
+}
+
+.header__button:hover {
+  opacity: 0.6;
+}
