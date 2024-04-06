@@ -2,4 +2,11 @@
   padding-top: 28px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main__temperature {
+  align-self: flex-start;
+  margin: 40px 0 34px 0;
 }

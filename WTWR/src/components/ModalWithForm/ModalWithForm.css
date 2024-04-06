@@ -1,0 +1,38 @@
+.modalWithForm {
+  width: 496px;
+  height: 436px;
+  background: green;
+  border-radius: 20px;
+  border: 1px solid 0.3;
+  column-gap: 0;
+}
+
+.modalWithForm__text {
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "CabinetGrotesk-Bold";
+}
+
+.modalWithForm__label {
+  margin: 0;
+  padding: 24px 0 24px 28px;
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+}
+
+.modalWithForm__placeholder {
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "CabinetGrotesk-Bold";
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.modalWithForm__radio {
+  display: flex;
+  flex-direction: column;
+}
+
+.modalWithForm__heading {
+}

@@ -1,0 +1,26 @@
+.itemCard {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.itemCard__title {
+  margin-top: 15px;
+  position: absolute;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+}
+
+.itemCard__title_text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 0.6;
+  padding: 2px 12px 2px 12px;
+}
+
+.itemCard__image {
+}
