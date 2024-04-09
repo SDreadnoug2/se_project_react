@@ -1,6 +1,6 @@
 import "./Header.css";
 
-function Header() {
+function Header(props) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -21,7 +21,11 @@ function Header() {
         <h3 className="header__text">{currentDate}, New York</h3>
       </div>
       <div className="header__divide">
-        <button type="button" className="header__button">
+        <button
+          onClick={props.toggleModal}
+          type="button"
+          className="header__button"
+        >
           +Add Clothes
         </button>
         <h3 className="header__text header__name">{name}</h3>

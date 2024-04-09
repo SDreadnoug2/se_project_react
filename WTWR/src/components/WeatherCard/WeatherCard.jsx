@@ -2,7 +2,6 @@ import "./WeatherCard.css";
 
 function WeatherCard(props) {
   const currentWeather = "../src/assets/PartialClouds.png";
-  const temperature = "45F";
 
   return (
     <div className="weatherCard">
@@ -11,7 +10,7 @@ function WeatherCard(props) {
         src={"../src/assets/PartialClouds.png"}
         alt="image"
       />
-      <h1 className="weatherCard__temperature">{temperature}</h1>
+      <h1 className="weatherCard__temperature">{props.temp}</h1>
     </div>
   );
 }

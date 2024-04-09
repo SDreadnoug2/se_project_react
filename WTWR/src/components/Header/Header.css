@@ -16,6 +16,7 @@
 
 .header__text {
   align-self: center;
+  font-size: 20px;
 }
 
 .header__name {
@@ -28,6 +29,7 @@
   transition: opacity 0.5s;
   cursor: pointer;
   border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .header__profile:hover {
@@ -39,6 +41,8 @@
   background: transparent;
   cursor: pointer;
   transition: opacity 0.5s;
+  font-family: "CabinetGrotesk-Bold";
+  font-size: 20px;
 }
 
 .header__button:hover {

@@ -1,46 +1,21 @@
 import "./ModalWithForm.css";
 
-function ModalWithForm() {
+function ModalWithForm(props) {
   return (
-    <form className="modalWithForm">
-      <p className="modalWithForm__heading">New Garment</p>
-      <label className="modalWithForm__label">
-        Name
-        <input
-          className="modalWithForm__placeholder"
-          type="text"
-          name="name"
-          placeholder="Name"
-        />
-      </label>
-      <label className="modalWithForm__label">
-        Image
-        <input
-          className="modalWithForm__placeholder"
-          type="text"
-          name="imageLink"
-          placeholder="Image URL"
-        />
-      </label>
-      <div className="modalWithForm__radio">
-        Select the weather type:
-        <label>
-          <input className="modalWithForm__text" type="radio" name="Hot" />
-          Hot
-        </label>
-        <label>
-          <input className="modalWithForm__text" type="radio" name="Warm" />
-          Warm
-        </label>
-        <label>
-          <input className="modalWithForm__text" type="radio" name="Cold" />
-          Cold
-        </label>
+    <div className="modal">
+      <div className={`modal_type_${props.name}`}>
+        <button className="modal__close" onClick={props.onClose}></button>
+        <h2 id={`${props.name}Title`} className="modal__title">
+          {props.title}
+        </h2>
+        <form className="modal__form" name={props.name}>
+          {props.children}
+          <button className="modal__submit" type="submit">
+            {props.buttonText}
+          </button>
+        </form>
       </div>
-      <button className="modalWithForm__text" type="submit">
-        Add garment
-      </button>
-    </form>
+    </div>
   );
 }
 

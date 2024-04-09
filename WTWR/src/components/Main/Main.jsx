@@ -3,10 +3,10 @@ import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
 
 function Main(props) {
-  const temperature = "75";
+  const temperature = props.temp;
   return (
     <div className="main">
-      <WeatherCard />
+      <WeatherCard temp={temperature} />
       <h2 className="main__temperature">
         Today is {temperature} / You may want to wear:
       </h2>
