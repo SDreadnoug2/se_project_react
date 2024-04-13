@@ -1,1 +1,5 @@
 @import url("../src/vendor/fonts.css");
+
+body {
+  margin: 0;
+}

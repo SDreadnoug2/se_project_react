@@ -1,6 +1,7 @@
 .App {
   font-family: "CabinetGrotesk-Bold";
   font-weight: 700;
-  margin: 0;
+
+  margin: 32px 40px 32px 40px;
   height: 100%;
 }

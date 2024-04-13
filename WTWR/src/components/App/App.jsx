@@ -3,12 +3,14 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+
 import "./App.css";
 
 function App() {
+  //form modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const changeModalState = () => setIsModalOpen(!isModalOpen);
-  const temperature = "75";
+  const temperature = "90";
 
   return (
     <>
@@ -21,7 +23,7 @@ function App() {
             onClose={changeModalState}
           >
             <div className="modal__text_container">
-              <label for="name">Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
                 id="name"
@@ -29,7 +31,7 @@ function App() {
                 placeholder="Name"
                 className="modal__input"
               />
-              <label for="Image">Image</label>
+              <label htmlFor="Image">Image</label>
               <input
                 type="url"
                 id="url"

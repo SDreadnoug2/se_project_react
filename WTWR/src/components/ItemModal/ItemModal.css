@@ -1,0 +1,19 @@
+.itemModal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+
+.itemModal__button {
+}
+
+.itemModal__image {
+}
+
+.itemModal__info {
+}
+
+.itemModal__text {
+}

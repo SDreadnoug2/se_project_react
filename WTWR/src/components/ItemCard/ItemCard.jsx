@@ -2,11 +2,15 @@ import "./ItemCard.css";
 
 function ItemCard(props) {
   return (
-    <div className="itemCard">
+    <div className="itemCard" onClick={props.onClick}>
       <div className="itemCard__title">
-        <h2 className="itemCard__title_text">T-Shirt</h2>
+        <h2 className="itemCard__title_text">{props.name}</h2>
       </div>
-      <img className="itemCard__image" src="../src/assets/T-Shirt.png"></img>
+      <img
+        className="itemCard__image"
+        src={`${props.link}`}
+        alt={`${props.name}`}
+      />
     </div>
   );
 }
