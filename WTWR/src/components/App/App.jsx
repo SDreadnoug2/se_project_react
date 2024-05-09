@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -11,6 +11,14 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const changeModalState = () => setIsModalOpen(!isModalOpen);
   const temperature = "90";
+
+  const [climate, setClimate] = useState({});
+
+  function loadClimate() {
+    return fetch(
+      "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${3a009f448f5229c77dec4ee387744e45}"
+    );
+  }
 
   return (
     <>

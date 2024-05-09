@@ -10,3 +10,9 @@
   align-self: flex-start;
   margin: 40px 0 34px 0;
 }
+
+.main__clothingCards {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}

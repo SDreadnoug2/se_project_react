@@ -1,19 +1,59 @@
 .itemModal {
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 999;
+}
+
+.itemModal__container {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  width: 498px;
+  height: 610px;
+  border-radius: 16px;
+  position: relative;
+  margin: 0;
+  overflow: auto;
 }
 
 .itemModal__button {
+  background-image: url(/src/assets/close_button_white.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  top: 24px;
+  right: 24px;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .itemModal__image {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
 .itemModal__info {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px 32px 24px;
+  gap: 12px;
 }
 
 .itemModal__text {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 24px;
 }

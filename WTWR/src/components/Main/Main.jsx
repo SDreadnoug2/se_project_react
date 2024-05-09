@@ -24,10 +24,6 @@ function Main(props) {
     });
   };
 
-  const handleImageClose = () => {
-    setModalInfo({ ...modalInfo, isOpen: false });
-  };
-
   useEffect(() => {
     let weatherCondition = "";
     if (temperature > 80) {
@@ -43,6 +39,10 @@ function Main(props) {
     );
     setFilteredItems(itemsForWeather);
   }, [temperature]);
+
+  const handleImageClose = () => {
+    setModalInfo({ ...modalInfo, isOpen: false });
+  };
 
   return (
     <div className="main">

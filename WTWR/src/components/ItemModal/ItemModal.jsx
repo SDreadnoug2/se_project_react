@@ -1,6 +1,26 @@
 import "./ItemModal.css";
+import { useEffect } from "react";
 
 function ItemModal(props) {
+  useEffect(() => {
+    const modal = document.querySelector(".itemModal");
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        props.onClose();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    modal.addEventListener("mouseup", (event) => {
+      if (event.target === modal) {
+        props.onClose();
+      }
+    });
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [props.onClose]);
+
   return (
     <div className="itemModal">
       <div className="itemModal__container">
