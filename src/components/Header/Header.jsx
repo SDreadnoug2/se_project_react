@@ -15,7 +15,7 @@ function Header(props) {
       <div className="header__divide">
         <img
           className="header__logo"
-          src="../src/assets/Logo.png"
+          src="./src/assets/Logo.png"
           alt="wtwr logo"
         />
         <h3 className="header__text">{currentDate}, Singapore</h3>
@@ -31,7 +31,7 @@ function Header(props) {
         <h3 className="header__text header__name">{name}</h3>
         <img
           className="header__profile"
-          src="../src/assets/tempPP.jpg"
+          src="./src/assets/tempPP.jpg"
           alt="profile picture"
         ></img>
       </div>
