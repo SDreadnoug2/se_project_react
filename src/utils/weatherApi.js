@@ -14,7 +14,6 @@ export function updateWeather() {
       return Promise.reject(`Error ${res.status}`);
     })
     .then((data) => {
-      console.log(data.main.temp);
       return data.main.temp;
     })
     .catch((error) => console.error(error));
