@@ -1,6 +1,6 @@
 import { apiInfo } from "./constants";
 
-export function updateWeather() {
+export function getWeatherData() {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${apiInfo.latitude}&lon=${apiInfo.longitude}&units=imperial&appid=${apiInfo.apikey}`,
     {
@@ -14,7 +14,7 @@ export function updateWeather() {
       return Promise.reject(`Error ${res.status}`);
     })
     .then((data) => {
-      return data.main.temp;
-    })
-    .catch((error) => console.error(error));
+      const climate = { temp: data.main.temp, location: data.name };
+      return climate;
+    });
 }

@@ -5,24 +5,25 @@ function Header(props) {
     month: "long",
     day: "numeric",
   });
-  const location = undefined;
   const addButton = undefined;
   const name = "bill";
   const profilePicture = "";
 
   return (
-    <div className="header">
+    <header className="header">
       <div className="header__divide">
         <img
           className="header__logo"
           src="./src/assets/Logo.png"
           alt="wtwr logo"
         />
-        <h3 className="header__text">{currentDate}, Singapore</h3>
+        <h3 className="header__text">
+          {currentDate}, {props.location}
+        </h3>
       </div>
       <div className="header__divide">
         <button
-          onClick={props.toggleModal}
+          onClick={props.garmentModal}
           type="button"
           className="header__button"
         >
@@ -35,7 +36,7 @@ function Header(props) {
           alt="profile picture"
         ></img>
       </div>
-    </div>
+    </header>
   );
 }
 

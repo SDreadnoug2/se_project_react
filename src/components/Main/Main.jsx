@@ -3,26 +3,10 @@ import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
 import { defaultClothingItems } from "../../utils/constants";
 import React, { useState, useEffect } from "react";
-import ItemModal from "../ItemModal/ItemModal";
 
 function Main(props) {
   const temperature = Math.round(props.temp);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [modalInfo, setModalInfo] = useState({
-    isOpen: false,
-    name: "",
-    link: "",
-    weather: "",
-  });
-
-  const handleImageClick = (link, name, weather) => {
-    setModalInfo({
-      isOpen: true,
-      name: name,
-      link: link,
-      weather: weather,
-    });
-  };
 
   useEffect(() => {
     let weatherCondition = "";
@@ -50,23 +34,15 @@ function Main(props) {
       <h2 className="main__temperature">
         Today is {temperature}°F / You may want to wear:
       </h2>
-      {modalInfo.isOpen && (
-        <ItemModal
-          image={modalInfo.link}
-          name={modalInfo.name}
-          weather={modalInfo.weather}
-          onClose={handleImageClose}
-        />
-      )}
       <div className="main__clothingCards">
         {filteredItems.map((item) => (
           <ItemCard
             key={item._id}
             name={item.name}
             link={item.link}
-            onClick={() => {
-              handleImageClick(item.link, item.name, item.weather);
-            }}
+            onClick={() =>
+              props.handleImageClick(item.link, item.name, item.weather)
+            }
           />
         ))}
       </div>

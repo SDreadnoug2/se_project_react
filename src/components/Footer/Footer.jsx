@@ -2,10 +2,10 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="footer">
+    <footer className="footer">
       <p className="footer__text">Developed by Nicholas Milton</p>
       <p className="footer__text">2024</p>
-    </div>
+    </footer>
   );
 }
 
