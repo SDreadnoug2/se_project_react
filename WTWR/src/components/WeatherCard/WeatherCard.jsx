@@ -10,7 +10,7 @@ function WeatherCard(props) {
         src={"../src/assets/PartialClouds.png"}
         alt="image"
       />
-      <h1 className="weatherCard__temperature">{props.temp}</h1>
+      <h1 className="weatherCard__temperature">{props.temp}°F</h1>
     </div>
   );
 }

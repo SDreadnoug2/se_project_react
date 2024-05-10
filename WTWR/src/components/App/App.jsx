@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { updateWeather } from "../../utils/weatherApi";
 
 import "./App.css";
 
@@ -10,15 +11,16 @@ function App() {
   //form modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const changeModalState = () => setIsModalOpen(!isModalOpen);
-  const temperature = "90";
 
-  const [climate, setClimate] = useState({});
+  const [climate, setClimate] = useState({ temp: "Loading..." });
 
-  function loadClimate() {
-    return fetch(
-      "https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${3a009f448f5229c77dec4ee387744e45}"
-    );
-  }
+  useEffect(() => {
+    updateWeather().then((temp) => {
+      if (temp !== null) {
+        setClimate({ temp });
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -84,7 +86,7 @@ function App() {
           </ModalWithForm>
         )}
         <Header toggleModal={changeModalState} />
-        <Main temp={temperature} />
+        <Main temp={climate.temp} />
         <Footer />
       </div>
     </>

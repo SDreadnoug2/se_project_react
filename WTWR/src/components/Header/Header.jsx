@@ -18,7 +18,7 @@ function Header(props) {
           src="../src/assets/Logo.png"
           alt="wtwr logo"
         />
-        <h3 className="header__text">{currentDate}, New York</h3>
+        <h3 className="header__text">{currentDate}, Singapore</h3>
       </div>
       <div className="header__divide">
         <button

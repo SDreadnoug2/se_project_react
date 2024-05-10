@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import ItemModal from "../ItemModal/ItemModal";
 
 function Main(props) {
-  const temperature = props.temp;
+  const temperature = Math.round(props.temp);
   const [filteredItems, setFilteredItems] = useState([]);
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -48,7 +48,7 @@ function Main(props) {
     <div className="main">
       <WeatherCard temp={temperature} />
       <h2 className="main__temperature">
-        Today is {temperature} / You may want to wear:
+        Today is {temperature}°F / You may want to wear:
       </h2>
       {modalInfo.isOpen && (
         <ItemModal
