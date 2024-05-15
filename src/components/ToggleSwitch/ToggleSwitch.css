@@ -1,0 +1,107 @@
+.ToggleSwitch__checkbox {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+/* switch track */
+.ToggleSwitch__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 56px;
+  height: 28px;
+  background: none;
+  border-radius: 100px;
+  border: solid 3px rgb(189, 189, 189);
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+/*border color on hover */
+.ToggleSwitch__label:hover {
+  border: solid 3px black;
+}
+
+.ToggleSwitch__label:hover .ToggleSwitch__button {
+  left: 0px;
+}
+/* Switch knob */
+.ToggleSwitch__button {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  transition: 0.2s;
+  background: black;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  left: -2px;
+}
+
+/* Label position */
+.ToggleSwitch__text {
+  position: absolute;
+  top: 6px;
+  transition: color 0.2s ease-in-out;
+}
+
+.ToggleSwitch__text:nth-child(2) {
+  left: 8px;
+}
+
+.ToggleSwitch__text:nth-child(3) {
+  right: 6px;
+}
+
+/* Initial color states */
+.ToggleSwitch__checkbox:not(:checked)
+  + .ToggleSwitch__label
+  .ToggleSwitch__text:nth-child(2) {
+  color: white;
+}
+.ToggleSwitch__checkbox:not(:checked)
+  + .ToggleSwitch__label
+  .ToggleSwitch__text:nth-child(3) {
+  color: grey;
+}
+
+/* Change C on hover */
+.ToggleSwitch__checkbox:not(:checked)
+  + .ToggleSwitch__label:hover
+  .ToggleSwitch__text:nth-child(3) {
+  color: black;
+}
+
+/* Checked text colors */
+.ToggleSwitch__checkbox:checked
+  + .ToggleSwitch__label
+  .ToggleSwitch__text:nth-child(2) {
+  color: grey;
+}
+
+.ToggleSwitch__checkbox:checked
+  + .ToggleSwitch__label
+  .ToggleSwitch__text:nth-child(3) {
+  color: white;
+}
+
+/* Change F on hover */
+.ToggleSwitch__checkbox:checked
+  + .ToggleSwitch__label:hover
+  .ToggleSwitch__text:nth-child(2) {
+  color: black;
+}
+
+/* Button animation */
+.ToggleSwitch__checkbox:checked + .ToggleSwitch__label .ToggleSwitch__button {
+  left: calc(50%);
+}
+
+/* Move button further on hover when checked */
+.ToggleSwitch__checkbox:checked
+  + .ToggleSwitch__label:hover
+  .ToggleSwitch__button {
+  left: calc(100% - 30px); /* Adjust as needed */
+}

@@ -1,4 +1,5 @@
 import "./Header.css";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 function Header(props) {
   const currentDate = new Date().toLocaleString("default", {
@@ -8,7 +9,6 @@ function Header(props) {
   const addButton = undefined;
   const name = "bill";
   const profilePicture = "";
-
   return (
     <header className="header">
       <div className="header__divide">
@@ -22,6 +22,7 @@ function Header(props) {
         </h3>
       </div>
       <div className="header__divide">
+        <ToggleSwitch />
         <button
           onClick={props.garmentModal}
           type="button"

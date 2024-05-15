@@ -2,19 +2,23 @@ import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
 import { defaultClothingItems } from "../../utils/constants";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 
 function Main(props) {
-  const temperature = Math.round(props.temp);
+  const { currentTemperatureUnit } = React.useContext(
+    CurrentTemperatureUnitContext
+  );
   const [filteredItems, setFilteredItems] = useState([]);
-
+  const temperature =
+    currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
   useEffect(() => {
     let weatherCondition = "";
-    if (temperature > 80) {
+    if (props.temp.F > 80) {
       weatherCondition = "hot";
-    } else if (temperature >= 65 && temperature <= 80) {
+    } else if (props.temp.F >= 65 && props.temp.F <= 80) {
       weatherCondition = "warm";
-    } else if (temperature < 65) {
+    } else if (props.temp.F < 65) {
       weatherCondition = "cold";
     }
 
@@ -32,7 +36,7 @@ function Main(props) {
     <div className="main">
       <WeatherCard temp={temperature} />
       <h2 className="main__temperature">
-        Today is {temperature}°F / You may want to wear:
+        Today is {temperature}°{currentTemperatureUnit} / You may want to wear:
       </h2>
       <div className="main__clothingCards">
         {filteredItems.map((item) => (

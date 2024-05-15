@@ -14,7 +14,10 @@ export function getWeatherData() {
       return Promise.reject(`Error ${res.status}`);
     })
     .then((data) => {
-      const climate = { temp: data.main.temp, location: data.name };
+      const climate = {
+        temp: data.main.temp,
+        location: data.name,
+      };
       return climate;
     });
 }
