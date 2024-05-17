@@ -12,6 +12,7 @@
 
 .header__logo {
   padding-right: 24px;
+  cursor: pointer;
 }
 
 .header__text {

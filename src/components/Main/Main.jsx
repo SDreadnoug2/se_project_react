@@ -1,14 +1,15 @@
 import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
-import { defaultClothingItems } from "../../utils/constants";
 import React, { useState, useEffect, useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import { ClothingListContext } from "../../contexts/ClothingListContext";
 
 function Main(props) {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
+  const { clothingItems } = useContext(ClothingListContext);
   const [filteredItems, setFilteredItems] = useState([]);
   const temperature =
     currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
@@ -22,11 +23,11 @@ function Main(props) {
       weatherCondition = "cold";
     }
 
-    const itemsForWeather = defaultClothingItems.filter(
+    const itemsForWeather = clothingItems.filter(
       (item) => item.weather === weatherCondition
     );
     setFilteredItems(itemsForWeather);
-  }, [temperature]);
+  }, [temperature, clothingItems]);
 
   const handleImageClose = () => {
     setModalInfo({ ...modalInfo, isOpen: false });
@@ -43,9 +44,14 @@ function Main(props) {
           <ItemCard
             key={item._id}
             name={item.name}
-            link={item.link}
+            link={item.imageUrl}
             onClick={() =>
-              props.handleImageClick(item.link, item.name, item.weather)
+              props.handleImageClick(
+                item.imageUrl,
+                item.name,
+                item.weather,
+                item._id
+              )
             }
           />
         ))}

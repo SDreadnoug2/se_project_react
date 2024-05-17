@@ -1,0 +1,21 @@
+.SideBar {
+  height: 56px;
+  max-width: 229px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.SideBar__picture {
+  width: 56px;
+  height: 56px;
+  transition: opacity 0.5s;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.SideBar__name {
+  font-size: 20px;
+}

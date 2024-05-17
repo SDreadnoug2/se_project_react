@@ -2,6 +2,7 @@ import "./ItemModal.css";
 import { useEffect, useRef } from "react";
 
 function ItemModal(props) {
+  console.log(props.id);
   const modalRef = useRef(null);
   useEffect(() => {
     const handleEsc = (event) => {
@@ -36,11 +37,23 @@ function ItemModal(props) {
           className="itemModal__button"
           onClick={props.onClose}
         ></button>
-        <img className="itemModal__image" src={props.image} alt={props.name} />
+        <div className="itemModal__image-container">
+          <img
+            className="itemModal__image"
+            src={props.image}
+            alt={props.name}
+          />
+        </div>
         <div className="itemModal__info">
           <p className="itemModal__text">{props.name}</p>
           <p className="itemModal__text">{`Weather: ${props.weather}`}</p>
         </div>
+        <p
+          className="itemModal__delete itemModal__text"
+          onClick={() => props.onDelete(props.id)}
+        >
+          Delete Item
+        </p>
       </div>
     </div>
   );

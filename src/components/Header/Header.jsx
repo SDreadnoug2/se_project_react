@@ -1,5 +1,6 @@
 import "./Header.css";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import { Link } from "react-router-dom";
 
 function Header(props) {
   const currentDate = new Date().toLocaleString("default", {
@@ -12,11 +13,13 @@ function Header(props) {
   return (
     <header className="header">
       <div className="header__divide">
-        <img
-          className="header__logo"
-          src="./src/assets/Logo.png"
-          alt="wtwr logo"
-        />
+        <Link to="/">
+          <img
+            className="header__logo"
+            src="./src/assets/Logo.png"
+            alt="wtwr logo"
+          />
+        </Link>
         <h3 className="header__text">
           {currentDate}, {props.location}
         </h3>
@@ -31,11 +34,13 @@ function Header(props) {
           +Add Clothes
         </button>
         <h3 className="header__text header__name">{name}</h3>
-        <img
-          className="header__profile"
-          src="./src/assets/tempPP.jpg"
-          alt="profile picture"
-        ></img>
+        <Link to="/profile">
+          <img
+            className="header__profile"
+            src="./src/assets/tempPP.jpg"
+            alt="profile picture"
+          ></img>
+        </Link>
       </div>
     </header>
   );

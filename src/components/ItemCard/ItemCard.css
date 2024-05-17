@@ -3,9 +3,11 @@
   position: relative;
   justify-content: center;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
+  width: 325px;
+  height: 325px;
 }
 
 .itemCard__title {
@@ -24,4 +26,5 @@
 }
 
 .itemCard__image {
+  max-width: 100%;
 }

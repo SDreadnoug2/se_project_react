@@ -1,30 +1,81 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
+import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 import { getWeatherData } from "../../utils/weatherApi";
 import ItemModal from "../ItemModal/ItemModal";
+import AddItemModal from "../AddItemModal/AddItemModal";
 import "./App.css";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import { ClothingListContext } from "../../contexts/ClothingListContext";
+import { getItems, createItem, deleteItem } from "../../utils/api";
 
 function App() {
   //form modal
   const [activeModal, setActiveModal] = useState(null);
   const [modalInfo, setModalInfo] = useState({});
+  const [clothingItems, setClothingItems] = useState([]);
   const openModal = (modalName, modalData) => {
     setActiveModal(modalName);
     setModalInfo(modalData);
+    console.log(modalData);
   };
   const closeModal = () => {
     setActiveModal(null);
     setModalInfo({});
   };
-  const handleImageClick = (link, name, weather) => {
-    console.log("Opening modal for:", name);
-    openModal("item-modal", { link, name, weather });
+  const handleImageClick = (link, name, weather, id) => {
+    openModal("item-modal", { link, name, weather, id });
   };
 
+  useEffect(() => {
+    getItems()
+      .then((data) => {
+        setClothingItems(data);
+      })
+      .catch((error) => console.error("Failed to fetch items: ", error));
+  }, []);
+
+  const handleAddItemSubmit = (name, url, weather) => {
+    const getNextId = (items) => {
+      if (items.length === 0) return 1;
+      const maxId = Math.max(...items.map((item) => item.id));
+      return maxId + 1;
+    };
+    const item = {
+      _id: getNextId(clothingItems),
+      name: name,
+      imageUrl: url,
+      weather: weather,
+    };
+    createItem(item).then((res) => {
+      setClothingItems([res, ...clothingItems]);
+      closeModal();
+    });
+  };
+
+  const [deleteCard, setDeleteCard] = useState({});
+  const openConfirmationModal = (id) => {
+    setDeleteCard(id);
+    setActiveModal("delete-modal");
+  };
+
+  const handleItemDelete = () => {
+    const id = deleteCard;
+    console.log(deleteCard);
+    deleteItem(id).then(() => {
+      const updatedItems = clothingItems.filter((item) => item._id !== id);
+      setClothingItems(updatedItems);
+      console.log(updatedItems);
+      setDeleteCard({});
+      closeModal();
+    });
+  };
+
+  useEffect(() => {}, [clothingItems]);
   //Temp Set + Controls
   const [climate, setClimate] = useState({
     temp: { F: "Loading", C: "Loading" },
@@ -53,80 +104,58 @@ function App() {
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
-        {activeModal === "add-garment" && (
-          <ModalWithForm
-            name="form"
-            title="New garment"
-            buttonText="Add garment"
-            onClose={closeModal}
-          >
-            <div className="modal__text_container">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Name"
-                className="modal__input"
-              />
-              <label htmlFor="Image">Image</label>
-              <input
-                type="url"
-                id="url"
-                name="url"
-                placeholder="Image URL"
-                className="modal__input"
-              />
-              <p className="modal__title_radio">Select the Weather Type:</p>
-              <ul className="modal__radio">
-                <label htmlFor="hot" className="modal__radio_select">
-                  <input
-                    type="radio"
-                    id="hot"
-                    name="weatherType"
-                    value="hot"
-                    className="modal__radio_input"
-                  />
-                  Hot
-                </label>
-                <label htmlFor="Warm" className="modal__radio_select">
-                  <input
-                    type="radio"
-                    id="Warm"
-                    name="weatherType"
-                    value="warm"
-                    className="modal__radio_input"
-                  />
-                  Warm
-                </label>
-                <label htmlFor="cold" className="modal__radio_select">
-                  <input
-                    type="radio"
-                    id="cold"
-                    name="weatherType"
-                    value="cold"
-                    className="modal__radio_input"
-                  />
-                  Cold
-                </label>
-              </ul>
-            </div>
-          </ModalWithForm>
-        )}
-        {activeModal === "item-modal" && (
-          <ItemModal
-            image={modalInfo.link}
-            name={modalInfo.name}
-            weather={modalInfo.weather}
-            onClose={closeModal}
+        <ClothingListContext.Provider value={{ clothingItems }}>
+          <Header
+            location={climate.location}
+            garmentModal={() => openModal("add-garment")}
           />
-        )}
-        <Header
-          location={climate.location}
-          garmentModal={() => openModal("add-garment")}
-        />
-        <Main temp={climate} handleImageClick={handleImageClick} />
-        <Footer />
+          {activeModal === "delete-modal" && (
+            <ConfirmDeleteModal
+              onClose={closeModal}
+              onConfirm={handleItemDelete}
+            />
+          )}
+          {activeModal === "add-garment" && (
+            <AddItemModal
+              isOpen={activeModal}
+              onAddItem={handleAddItemSubmit}
+              onCloseModal={closeModal}
+            />
+          )}
+          {activeModal === "item-modal" && (
+            <ItemModal
+              image={modalInfo.link}
+              name={modalInfo.name}
+              weather={modalInfo.weather}
+              id={modalInfo.id}
+              onClose={closeModal}
+              onDelete={openConfirmationModal}
+              onConfirm={handleItemDelete}
+            />
+          )}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  temp={climate}
+                  handleImageClick={handleImageClick}
+                  onRemove={handleItemDelete}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  garmentModal={() => openModal("add-garment")}
+                  handleImageClick={handleImageClick}
+                />
+              }
+            />
+          </Routes>
+          <Footer />
+        </ClothingListContext.Provider>
       </CurrentTemperatureUnitContext.Provider>
     </div>
   );

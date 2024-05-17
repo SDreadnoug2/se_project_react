@@ -1,0 +1,35 @@
+.ClothesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ClothesSection__wrapper-text {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.ClothesSection__text {
+  margin: 0;
+  font-size: 20px;
+}
+
+.ClothesSection__button {
+  border-style: none;
+  background: none;
+  font-family: "CabinetGrotesk-Bold";
+  color: grey;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.ClothesSection__button:hover {
+  color: black;
+}
+
+.ClothesSection__items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}

@@ -36,7 +36,11 @@ function ModalWithForm(props) {
         </h2>
         <form className="modal__form" name={props.name}>
           {props.children}
-          <button className="modal__submit" type="submit">
+          <button
+            className="modal__submit"
+            type="submit"
+            onClick={props.onSubmit}
+          >
             {props.buttonText}
           </button>
         </form>

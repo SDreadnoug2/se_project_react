@@ -1,0 +1,7 @@
+.Profile {
+  margin-top: 47px;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: row;
+  gap: 116px;
+}

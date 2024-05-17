@@ -1,0 +1,75 @@
+.confirm {
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+}
+
+.confirm__box {
+  width: 670px;
+  height: 280px;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid 0.3;
+  position: relative;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.confirm__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.confirm__text {
+  font-size: 20px;
+  color: black;
+  border-style: none;
+  background: none;
+  font-family: "CabinetGrotesk-Bold";
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 0;
+}
+
+.confirm__delete {
+  color: red;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.confirm__cancel {
+  background: none;
+  border-style: none;
+  font-family: "CabinetGrotesk-Bold";
+  font-size: 20px;
+  cursor: pointer;
+  transition: 1s ease-out;
+}
+
+.confirm__highlight:hover {
+  scale: 105%;
+}
+
+.confirm__close-button {
+  background-image: url(/src/assets/close_button.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  top: 24px;
+  right: 24px;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+}
