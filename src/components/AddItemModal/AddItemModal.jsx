@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-// onAddItem refers to handleAddItemSubmit, which is declared in App.js
+import useFormValidation from "../../utils/formValidation";
+import "./AddItemModal.css";
+
 const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [weather, setWeather] = useState("");
+
+  const isFormValid = useFormValidation(name, imageUrl, weather);
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleImageUrlChange = (e) => setImageUrl(e.target.value);
@@ -12,7 +16,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Added Garment: ${name},${imageUrl},${weather}`);
+    console.log(`Added Garment: ${name}, ${imageUrl}, ${weather}`);
     onAddItem(name, imageUrl, weather);
   };
 
@@ -23,6 +27,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
       buttonText="Add garment"
       onSubmit={handleSubmit}
       onClose={onCloseModal}
+      isFormValid={isFormValid}
     >
       <div className="modal__text_container">
         <label htmlFor="name">Name</label>
@@ -35,7 +40,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
           placeholder="Name"
           className="modal__input"
         />
-        <label htmlFor="Image">Image</label>
+        <label htmlFor="url">Image</label>
         <input
           type="url"
           id="url"
@@ -58,10 +63,10 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
             />
             Hot
           </label>
-          <label htmlFor="Warm" className="modal__radio_select">
+          <label htmlFor="warm" className="modal__radio_select">
             <input
               type="radio"
-              id="Warm"
+              id="warm"
               name="weatherType"
               value="warm"
               className="modal__radio_input"

@@ -1,7 +1,9 @@
-import "./ModalWithForm.css";
 import React, { useEffect, useRef } from "react";
+import "./ModalWithForm.css";
+
 function ModalWithForm(props) {
   const modalRef = useRef(null);
+
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
@@ -14,6 +16,7 @@ function ModalWithForm(props) {
         props.onClose();
       }
     };
+
     window.addEventListener("keydown", handleEsc);
     if (modalRef.current) {
       modalRef.current.addEventListener("mouseup", handleMouseUp);
@@ -34,12 +37,18 @@ function ModalWithForm(props) {
         <h2 id={`${props.name}Title`} className="modal__title">
           {props.title}
         </h2>
-        <form className="modal__form" name={props.name}>
+        <form
+          className="modal__form"
+          name={props.name}
+          onSubmit={props.onSubmit}
+        >
           {props.children}
           <button
-            className="modal__submit"
+            className={`${
+              props.isFormValid ? "modal__submit_enabled" : "modal__submit"
+            }`}
             type="submit"
-            onClick={props.onSubmit}
+            disabled={!props.isFormValid}
           >
             {props.buttonText}
           </button>
