@@ -101,12 +101,6 @@
       "name": "T-Shirt",
       "weather": "hot",
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09"
-    },
-    {
-      "_id": 19,
-      "name": "Nightmare Hoodie",
-      "imageUrl": "https://imgs.search.brave.com/OLvmLK3TDnCgzgePZ1t3Y630AA6Rfp7y4LYf7uht0Fk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly91bmlj/dW4uY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIwLzAxL1Jh/bWVuLUhvb2RpZS5q/cGc",
-      "weather": "cold"
     }
   ]
 }

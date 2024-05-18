@@ -51,10 +51,12 @@ function App() {
       imageUrl: url,
       weather: weather,
     };
-    createItem(item).then((res) => {
-      setClothingItems([res, ...clothingItems]);
-      closeModal();
-    });
+    createItem(item)
+      .then((res) => {
+        setClothingItems([res, ...clothingItems]);
+        closeModal();
+      })
+      .catch((error) => console.error("Failed to add clothing item: ", error));
   };
 
   const [deleteCard, setDeleteCard] = useState({});
@@ -71,11 +73,12 @@ function App() {
       setClothingItems(updatedItems);
       console.log(updatedItems);
       setDeleteCard({});
-      closeModal();
+      closeModal().catch((error) =>
+        console.error("Failed to delete card:", error)
+      );
     });
   };
 
-  useEffect(() => {}, [clothingItems]);
   //Temp Set + Controls
   const [climate, setClimate] = useState({
     temp: { F: "Loading", C: "Loading" },
