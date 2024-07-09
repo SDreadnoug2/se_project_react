@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import "./ModalWithForm.css";
 
 function ModalWithForm(props) {
+
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -43,15 +44,23 @@ function ModalWithForm(props) {
           onSubmit={props.onSubmit}
         >
           {props.children}
-          <button
-            className={`${
-              props.isFormValid ? "modal__submit_enabled" : "modal__submit"
-            }`}
-            type="submit"
-            disabled={!props.isFormValid}
-          >
-            {props.buttonText}
-          </button>
+          <div className="modal__submit_section">
+            <button
+              className={`${
+                props.isFormValid ? "modal__submit_enabled" : "modal__submit"
+              }`}
+              type="submit"
+              disabled={!props.isFormValid}
+            >
+              {props.buttonText}
+            </button>
+            {props.title === "Log in" && (
+              <button className="modal__button" type="button">or Register</button>
+            )}
+            {props.title === "Register" && (
+              <button className="modal__button" type="button">or Login</button>
+            )}
+          </div>
         </form>
       </div>
     </div>

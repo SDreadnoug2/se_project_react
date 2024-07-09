@@ -34,6 +34,8 @@ function Header(props) {
           +Add Clothes
         </button>
         <h3 className="header__text header__name">{name}</h3>
+        <button type="button" onClick={props.loginModal} className="header__text header__name">Login</button>
+        <button type="button" onClick={props.registerModal} className="header__text header__name">Sign Up</button>
         <Link to="/profile">
           <img
             className="header__profile"

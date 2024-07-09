@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
@@ -8,16 +8,23 @@ import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 import { getWeatherData } from "../../utils/weatherApi";
 import ItemModal from "../ItemModal/ItemModal";
 import AddItemModal from "../AddItemModal/AddItemModal";
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
 import "./App.css";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { ClothingListContext } from "../../contexts/ClothingListContext";
+import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 import { getItems, createItem, deleteItem } from "../../utils/api";
+import ProtectedRoute from "../../utils/ProtectedRoute";
+import * as Auth from "../../utils/auth";
 
 function App() {
   //form modal
   const [activeModal, setActiveModal] = useState(null);
   const [modalInfo, setModalInfo] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
   const openModal = (modalName, modalData) => {
     setActiveModal(modalName);
     setModalInfo(modalData);
@@ -101,6 +108,17 @@ function App() {
     setCurentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
   };
 
+  // HANDLE LOGIN
+  const handleLogin = ({email, password}) => {
+    console.log(email, password);
+  }
+
+  // HANDLE REGISTER
+  const handleRegister = ({email, password, name, avatar}) => {
+    const {userData} = {email, password, name, avatar}
+    console.log(userData)
+  };
+
   //Layout
   return (
     <div className="App">
@@ -108,56 +126,82 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
         <ClothingListContext.Provider value={{ clothingItems }}>
-          <Header
-            location={climate.location}
-            garmentModal={() => openModal("add-garment")}
-          />
-          {activeModal === "delete-modal" && (
-            <ConfirmDeleteModal
-              onClose={closeModal}
-              onConfirm={handleItemDelete}
+          <ActiveModalContext.Provider value={{activeModal}}>
+            <Header
+              location={climate.location}
+              garmentModal={() => openModal("add-garment")}
+              loginModal={() => openModal("login-modal")}
+              registerModal={() => openModal("register-modal")}
             />
-          )}
-          {activeModal === "add-garment" && (
-            <AddItemModal
-              isOpen={activeModal}
-              onAddItem={handleAddItemSubmit}
-              onCloseModal={closeModal}
-            />
-          )}
-          {activeModal === "item-modal" && (
-            <ItemModal
-              image={modalInfo.link}
-              name={modalInfo.name}
-              weather={modalInfo.weather}
-              id={modalInfo.id}
-              onClose={closeModal}
-              onDelete={openConfirmationModal}
-              onConfirm={handleItemDelete}
-            />
-          )}
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Main
-                  temp={climate}
-                  handleImageClick={handleImageClick}
-                  onRemove={handleItemDelete}
+            {activeModal === "register-modal" && (
+              <RegisterModal
+                onClose={closeModal}
+                handleRegister={handleRegister}
                 />
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <Profile
-                  garmentModal={() => openModal("add-garment")}
-                  handleImageClick={handleImageClick}
-                />
-              }
-            />
-          </Routes>
-          <Footer />
+            )}
+            {activeModal === "delete-modal" && (
+              <ConfirmDeleteModal
+                onClose={closeModal}
+                onConfirm={handleItemDelete}
+              />
+            )}
+            {activeModal === "login-modal" && (
+              <LoginModal
+                onClose={closeModal}
+                handleLogin={handleLogin}
+              />
+            )}
+            {activeModal === "add-garment" && (
+              <AddItemModal
+                isOpen={activeModal}
+                onAddItem={handleAddItemSubmit}
+                onCloseModal={closeModal}
+              />
+            )}
+            {activeModal === "item-modal" && (
+              <ItemModal
+                image={modalInfo.link}
+                name={modalInfo.name}
+                weather={modalInfo.weather}
+                id={modalInfo.id}
+                onClose={closeModal}
+                onDelete={openConfirmationModal}
+                onConfirm={handleItemDelete}
+              />
+            )}
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Main
+                    temp={climate}
+                    handleImageClick={handleImageClick}
+                    onRemove={handleItemDelete}
+                  />
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile
+                      garmentModal={() => openModal("add-garment")}
+                      handleImageClick={handleImageClick}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  isLoggedIn ? (
+                    <Navigate to="/profile" replace /> 
+                  ) : (<Navigate to="/" replace/>)
+                } 
+              />
+            </Routes>
+            <Footer />
+          </ActiveModalContext.Provider>
         </ClothingListContext.Provider>
       </CurrentTemperatureUnitContext.Provider>
     </div>

@@ -9,10 +9,12 @@ function Main(props) {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
+
   const { clothingItems } = useContext(ClothingListContext);
+
   const [filteredItems, setFilteredItems] = useState([]);
-  const temperature =
-    currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
+  const temperature = currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
+
   useEffect(() => {
     let weatherCondition = "";
     if (props.temp.F > 80) {
@@ -22,7 +24,7 @@ function Main(props) {
     } else if (props.temp.F < 65) {
       weatherCondition = "cold";
     }
-
+console.log(clothingItems);
     const itemsForWeather = clothingItems.filter(
       (item) => item.weather === weatherCondition
     );
