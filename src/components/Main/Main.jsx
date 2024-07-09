@@ -11,7 +11,6 @@ function Main(props) {
   );
 
   const { clothingItems } = useContext(ClothingListContext);
-
   const [filteredItems, setFilteredItems] = useState([]);
   const temperature = currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
 
@@ -24,7 +23,6 @@ function Main(props) {
     } else if (props.temp.F < 65) {
       weatherCondition = "cold";
     }
-console.log(clothingItems);
     const itemsForWeather = clothingItems.filter(
       (item) => item.weather === weatherCondition
     );
