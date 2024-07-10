@@ -12,7 +12,9 @@ export function getItems() {
   return fetch(`${baseUrl}/items`, {
     method: "GET",
   }).then((res) => {
-    return checkResponse(res);
+    return checkResponse(res).then((res) => {
+      return res.data;
+    });
   });
 }
 export function createItem({ _id, name, imageUrl, weather }) {
