@@ -20,6 +20,7 @@ import * as Auth from "../../utils/auth";
 
 function App() {
   //form modal
+  const [userData, setUserData] = useState({name: "", email: ""});
   const [activeModal, setActiveModal] = useState(null);
   const [modalInfo, setModalInfo] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
@@ -110,13 +111,25 @@ function App() {
 
   // HANDLE LOGIN
   const handleLogin = ({email, password}) => {
-    console.log(email, password);
-  }
+    if(!email || !password) {
+      return;
+    }
+    Auth.login(email, password).then((data) => {
+      if(data.jwt){
+        setUserData(data.user);
+        setIsLoggedIn(true);
+        navigate("/profile");
+      }
+    }).catch(console.error);
+  };
 
   // HANDLE REGISTER
-  const handleRegister = ({email, password, name, avatar}) => {
-    const {userData} = {email, password, name, avatar}
-    console.log(userData)
+  const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
+    if(password === confirmPassword) {
+      Auth.register(name, password, email).then(() => {
+        Navigate("/login");
+      }).catch(console.error);
+    }
   };
 
   //Layout
@@ -132,6 +145,7 @@ function App() {
               garmentModal={() => openModal("add-garment")}
               loginModal={() => openModal("login-modal")}
               registerModal={() => openModal("register-modal")}
+              userData={userData}
             />
             {activeModal === "register-modal" && (
               <RegisterModal

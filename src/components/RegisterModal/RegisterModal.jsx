@@ -12,6 +12,8 @@ const RegisterModal = ({ onClose, handleRegister }) => {
     avatar:"",
   });
 
+// Need to change this as if you just fill out email and pass it'll say its valid.
+// Check useFormValidation
   const isFormValid = useFormValidation(data.email, data.password, true);
 
   const handleChange = (e) => {
@@ -24,7 +26,7 @@ const RegisterModal = ({ onClose, handleRegister }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin(data);
+    handleRegister(data);
   }
 
   return (
