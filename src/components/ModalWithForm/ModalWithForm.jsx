@@ -55,10 +55,10 @@ function ModalWithForm(props) {
               {props.buttonText}
             </button>
             {props.title === "Log in" && (
-              <button className="modal__button" type="button">or Register</button>
+              <button className="modal__button" type="submit">or Register</button>
             )}
             {props.title === "Register" && (
-              <button className="modal__button" type="button">or Login</button>
+              <button className="modal__button" type="submit">or Login</button>
             )}
           </div>
         </form>

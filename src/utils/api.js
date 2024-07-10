@@ -41,3 +41,17 @@ export function deleteItem(id) {
     return checkResponse(res);
   });
 }
+
+export const getUserInfo = (token) => {
+  // Send a GET request to /users/me
+  return fetch(`${baseUrl}/users/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+  });
+}

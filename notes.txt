@@ -1,0 +1,5 @@
+Need to Fix
+- Form Validation for Registration
+- UI Look
+- In app.jsx, see if moving the useEffect for checkign for a jwt token
+would work inside the useEffect that updates the weather.

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
@@ -14,22 +14,24 @@ import "./App.css";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { ClothingListContext } from "../../contexts/ClothingListContext";
 import { ActiveModalContext } from "../../contexts/ActiveModalContext";
-import { getItems, createItem, deleteItem } from "../../utils/api";
+import { getItems, createItem, deleteItem, getUserInfo} from "../../utils/api";
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import * as Auth from "../../utils/auth";
+import { setToken, getToken } from "../../utils/token";
 
 function App() {
   //form modal
-  const [userData, setUserData] = useState({name: "", email: ""});
+  const [userData, setUserData] = useState({name: "", email: "", avatar: ""});
   const [activeModal, setActiveModal] = useState(null);
   const [modalInfo, setModalInfo] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
   const openModal = (modalName, modalData) => {
     setActiveModal(modalName);
     setModalInfo(modalData);
-    console.log(modalData);
   };
   const closeModal = () => {
     setActiveModal(null);
@@ -75,11 +77,9 @@ function App() {
 
   const handleItemDelete = () => {
     const id = deleteCard;
-    console.log(deleteCard);
     deleteItem(id).then(() => {
       const updatedItems = clothingItems.filter((item) => item._id !== id);
       setClothingItems(updatedItems);
-      console.log(updatedItems);
       setDeleteCard({});
       closeModal().catch((error) =>
         console.error("Failed to delete card:", error)
@@ -92,6 +92,23 @@ function App() {
     temp: { F: "Loading", C: "Loading" },
     location: "Loading...",
   });
+
+  //Check for JWT
+  useEffect(() => {
+    const jwt = getToken();
+
+    if (!jwt) {
+      return;
+    }
+    getUserInfo(jwt).then(({name, email, avatar}) => {
+      setIsLoggedIn(true);
+      setUserData({name, email, avatar});
+
+    }).catch(console.error);
+    
+  }, []);
+
+  // Initial Page Load
   useEffect(() => {
     getWeatherData()
       .then((data) => {
@@ -104,6 +121,7 @@ function App() {
       })
       .catch((error) => console.error(error));
   }, []);
+
   const [currentTemperatureUnit, setCurentTemperatureUnit] = useState("F");
   const handleToggleSwitchChange = () => {
     setCurentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
@@ -115,19 +133,23 @@ function App() {
       return;
     }
     Auth.login(email, password).then((data) => {
-      if(data.jwt){
+      if(data.token){
+        setToken(data.token);
         setUserData(data.user);
         setIsLoggedIn(true);
-        navigate("/profile");
+        const redirectPath = location.state?.from?.pathname || "/profile";
+        navigate(redirectPath);
+        console.log(`logged in as ${data.user}`)
       }
     }).catch(console.error);
+    console.log(token);
   };
 
   // HANDLE REGISTER
   const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
     if(password === confirmPassword) {
-      Auth.register(name, password, email).then(() => {
-        Navigate("/login");
+      Auth.register(name, avatar, email, password).then(() => {
+        navigate("/profile");
       }).catch(console.error);
     }
   };
@@ -146,6 +168,8 @@ function App() {
               loginModal={() => openModal("login-modal")}
               registerModal={() => openModal("register-modal")}
               userData={userData}
+              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLoggedIn}
             />
             {activeModal === "register-modal" && (
               <RegisterModal
@@ -197,7 +221,7 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <ProtectedRoute isLoggedIn={isLoggedIn} anonymous={false}>
                     <Profile
                       garmentModal={() => openModal("add-garment")}
                       handleImageClick={handleImageClick}

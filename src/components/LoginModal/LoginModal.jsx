@@ -21,7 +21,9 @@ const LoginModal = ({ onClose, handleLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    onClose();
     handleLogin(data);
+
   }
 
   return (
