@@ -15,7 +15,7 @@ import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperature
 import { ClothingListContext } from "../../contexts/ClothingListContext";
 import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 import { UserInfoContext } from "../../contexts/UserInfoContext";
-import { getItems, createItem, deleteItem, getUserInfo, editProfile} from "../../utils/api";
+import { getItems, createItem, deleteItem, getUserInfo, editProfile, addCardLike, removeCardLike} from "../../utils/api";
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import * as Auth from "../../utils/auth";
 import { setToken, getToken } from "../../utils/token";
@@ -170,14 +170,15 @@ function App() {
 const handleCardLike = ({ id, isLiked }) => {
   const token = localStorage.getItem("jwt");
   !isLiked
-    ? api.addCardLike(id, token)
+    ? addCardLike(id, token)
       .then((updatedCard) => {
+        console.log(updatedCard);
         setClothingItems((cards) =>
           cards.map((item) => (item._id === id ? updatedCard : item))
         );
       })
       .catch((err) => console.log(err))
-    : api.removeCardLike(id, token)
+    : removeCardLike(id, token)
       .then((updatedCard) => {
         setClothingItems((cards) =>
           cards.map((item) => (item._id === id ? updatedCard : item))
@@ -253,7 +254,7 @@ const handleCardLike = ({ id, isLiked }) => {
                         temp={climate}
                         handleImageClick={handleImageClick}
                         onRemove={handleItemDelete}
-                        handleCardike={handleCardLike}
+                        handleCardLike={handleCardLike}
                       />
                     }
                   />

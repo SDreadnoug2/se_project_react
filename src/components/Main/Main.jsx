@@ -4,12 +4,13 @@ import ItemCard from "../ItemCard/ItemCard";
 import React, { useState, useEffect, useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { ClothingListContext } from "../../contexts/ClothingListContext";
+import { UserInfoContext } from "../../contexts/UserInfoContext";
 
 function Main(props) {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
-
+  const userData = useContext(UserInfoContext);
   const { clothingItems } = useContext(ClothingListContext);
   const [filteredItems, setFilteredItems] = useState([]);
   const temperature = currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
@@ -29,10 +30,6 @@ function Main(props) {
     setFilteredItems(itemsForWeather);
   }, [temperature, clothingItems]);
 
-  const handleImageClose = () => {
-    setModalInfo({ ...modalInfo, isOpen: false });
-  };
-
   return (
     <div className="main">
       <WeatherCard temp={temperature} />
@@ -42,11 +39,11 @@ function Main(props) {
       <div className="main__clothingCards">
         {filteredItems.map((item) => (
           <ItemCard
-            likes = {item.likes}
             key={item._id}
             name={item.name}
             link={item.imageUrl}
-            handleLike={() => props.handleCardLike({ id: item._id, isLiked: item.isLiked })}
+            isLiked = {item.likes.some(id => id === userData._id)}
+            handleCardLike={() => props.handleCardLike({ id: item._id, isLiked: item.likes.some(id => id === userData._id) })}
             onClick={() =>
               props.handleImageClick(
                 item.imageUrl,

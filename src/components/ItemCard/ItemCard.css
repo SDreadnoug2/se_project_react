@@ -10,9 +10,15 @@
   height: 325px;
 }
 
-.itemCard__title {
+.itemCard__title{
+  display: flex;
+  flex-direction: row;
   margin-top: 15px;
+  gap: 10px;
   position: absolute;
+}
+
+.itemCard__title_wrapper {
   background: rgba(255, 255, 255, 1);
   border-radius: 4px;
 }
@@ -23,6 +29,13 @@
   line-height: 20px;
   opacity: 0.6;
   padding: 2px 12px 2px 12px;
+}
+
+.itemCard__like{
+  width: 18px;
+  height: 15px;
+  align-self: center;
+  object-fit: contain;
 }
 
 .itemCard__image {
