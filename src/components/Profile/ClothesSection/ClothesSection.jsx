@@ -24,7 +24,7 @@ function ClothesSection(props) {
             name={item.name}
             link={item.imageUrl}
             onClick={() =>
-              props.ImageClick(item.imageUrl, item.name, item.weather, item._id)
+              props.ImageClick(item.imageUrl, item.name, item.weather, item._id, item.owner)
             }
           />
         ))}

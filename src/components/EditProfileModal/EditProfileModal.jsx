@@ -1,13 +1,14 @@
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
+import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 import "./EditProfileModal.css"
 
 const EditProfileModal = ({ onSubmitEdit }) => {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
-
+  const { activeModal, setActiveModal, closeModal}  = useContext(ActiveModalContext);
   const isFormValid = useFormValidation(name, avatar, true);
 
   const handleNameChange = (e) => setName(e.target.value);
@@ -16,6 +17,7 @@ const EditProfileModal = ({ onSubmitEdit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmitEdit({name, avatar})
+    closeModal();
   };
 
   return (

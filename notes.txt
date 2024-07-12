@@ -17,3 +17,12 @@ Then set log in to true, and set the user data.
 - I think delete button on modals might be misplaced.
 
 Stopped at editing profile logic.
+Next thing to do is liking api.
+
+Inside ItemCard, there is handleLike.
+- handleLike is a callback function, which executes props.handleLike(), which comes from main.
+- In main, you pass the item card's id, and is liked.
+- Main's handleCardLike is received through props, fom App.jsx.
+- In app.jsx there is the final handleCardike, which communicates with the API.
+- You need to connect the api to the server, you should probably start by figuring out what is 
+being sent or received from the server, and how all this works.

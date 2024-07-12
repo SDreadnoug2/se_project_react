@@ -42,10 +42,11 @@ function Main(props) {
       <div className="main__clothingCards">
         {filteredItems.map((item) => (
           <ItemCard
+            likes = {item.likes}
             key={item._id}
             name={item.name}
             link={item.imageUrl}
-            handleLike={props.handleCardLike}
+            handleLike={() => props.handleCardLike({ id: item._id, isLiked: item.isLiked })}
             onClick={() =>
               props.handleImageClick(
                 item.imageUrl,
