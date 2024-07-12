@@ -45,12 +45,14 @@ function Main(props) {
             key={item._id}
             name={item.name}
             link={item.imageUrl}
+            handleLike={props.handleCardLike}
             onClick={() =>
               props.handleImageClick(
                 item.imageUrl,
                 item.name,
                 item.weather,
-                item._id
+                item._id,
+                item.owner
               )
             }
           />

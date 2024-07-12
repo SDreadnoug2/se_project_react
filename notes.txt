@@ -3,3 +3,17 @@ Need to Fix
 - UI Look
 - In app.jsx, see if moving the useEffect for checkign for a jwt token
 would work inside the useEffect that updates the weather.
+
+
+On page load, you check for a token with getToken()
+If there isn't one just return i.e. continue
+You make a request to your server via the api file,
+The server should be returning the name email and avatar of that token.
+console
+Then set log in to true, and set the user data.
+
+
+- Fix look of login, register and logout buttons on Header and modals
+- I think delete button on modals might be misplaced.
+
+Stopped at editing profile logic.

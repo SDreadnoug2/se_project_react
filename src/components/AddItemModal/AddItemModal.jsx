@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import "./AddItemModal.css";
 
-const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
+const AddItemModal = ({ isOpen, onAddItem}) => {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [weather, setWeather] = useState("");
@@ -26,7 +26,6 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
       title="New garment"
       buttonText="Add garment"
       onSubmit={handleSubmit}
-      onClose={onCloseModal}
       isFormValid={isFormValid}
     >
       <div className="modal__text_container">

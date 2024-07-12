@@ -1,7 +1,9 @@
 import React from "react";
 
 const ActiveModalContext = React.createContext({
-  ActiveModal: "",
+  activeModal: null,
+  setActiveModal: () => {},
+  closeModal: () => {},
 });
 
 export { ActiveModalContext };

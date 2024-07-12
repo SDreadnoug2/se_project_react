@@ -1,8 +1,9 @@
 import "./ItemModal.css";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { UserInfoContext } from "../../contexts/UserInfoContext";
 
 function ItemModal(props) {
-  console.log(props.id);
+  const userData = useContext(UserInfoContext)
   const modalRef = useRef(null);
   useEffect(() => {
     const handleEsc = (event) => {
@@ -28,7 +29,11 @@ function ItemModal(props) {
       }
     };
   }, [props.onClose]);
-
+  const isOwn = props.owner === userData._id;
+  // Creating a variable which you'll then set in `className` for the delete button
+  const itemDeleteButtonClassName = (
+    `item__delete-button ${isOwn ? 'item__delete-button_visible' : 'item__delete-button_hidden'}`
+  );
   return (
     <div ref={modalRef} className="itemModal">
       <div className="itemModal__container">
@@ -49,7 +54,7 @@ function ItemModal(props) {
           <p className="itemModal__text">{`Weather: ${props.weather}`}</p>
         </div>
         <p
-          className="itemModal__delete itemModal__text"
+          className= {itemDeleteButtonClassName}
           onClick={() => props.onDelete(props.id)}
         >
           Delete Item

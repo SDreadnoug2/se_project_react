@@ -71,10 +71,18 @@
   line-height: 24px;
 }
 
-.itemModal__delete {
+.item__delete-button {
   cursor: pointer;
   color: rgba(255, 77, 0, 1);
   position: absolute;
   right: 32px;
   bottom: 68px;
+}
+
+.item__delete-button_hidden{
+  opacity: 0;
+}
+
+.item__delete-button_visible{
+  opacity: 1;
 }

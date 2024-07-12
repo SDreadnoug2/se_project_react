@@ -1,21 +1,44 @@
 .SideBar {
-  height: 56px;
+  height: auto; /* Adjusted to auto to fit the content */
   max-width: 229px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 16px;
 }
 
-.SideBar__picture {
+.SideBar__profile_wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: start;
+  gap: 24px;
+}
+
+.SideBar__profile_picture {
   width: 56px;
   height: 56px;
   transition: opacity 0.5s;
   cursor: pointer;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.5);
+  object-fit: cover; 
+  object-position: center; 
 }
 
-.SideBar__name {
+.SideBar__profile_name {
+  font-size: 20px;
+  text-align: center;
+}
+
+.SideBar__ui {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.SideBar__ui_text {
+  cursor: pointer;
   font-size: 20px;
 }

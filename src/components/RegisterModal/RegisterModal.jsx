@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import "./RegisterModal.css";
 
-const RegisterModal = ({ onClose, handleRegister }) => {
+const RegisterModal = ({handleRegister }) => {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -36,7 +36,6 @@ const RegisterModal = ({ onClose, handleRegister }) => {
       title="Register"
       buttonText="Next"
       onSubmit={handleSubmit}
-      onClose={onClose}
       isFormValid={isFormValid}
     >
       <div className="modal__text_container">

@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import "./LoginModal.css";
 
-const LoginModal = ({ onClose, handleLogin }) => {
+const LoginModal = ({handleLogin }) => {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -32,7 +32,6 @@ const LoginModal = ({ onClose, handleLogin }) => {
       title="Log in"
       buttonText="Log In"
       onSubmit={handleSubmit}
-      onClose={onClose}
       isFormValid={isFormValid}
     >
       <div className="modal__text_container">

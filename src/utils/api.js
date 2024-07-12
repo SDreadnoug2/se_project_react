@@ -1,4 +1,6 @@
+import { getToken } from "./token";
 const baseUrl = "http://localhost:3001";
+const jwt = getToken();
 
 function checkResponse(res) {
   if (res.ok) {
@@ -22,6 +24,7 @@ export function createItem({ _id, name, imageUrl, weather }) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+       authorization: `Bearer ${jwt}`
     },
     body: JSON.stringify({
       _id,
@@ -52,6 +55,30 @@ export const getUserInfo = (token) => {
       Authorization: `Bearer ${token}`,
     },
   }).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    return checkResponse(res);
   });
 }
+
+
+export const editProfile = ({name, avatar}) => {
+  return fetch(`${baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({ name, avatar})
+  }).then((res) => {
+    return res.data;
+  })
+}
+
+export const getItem = () => {
+  
+}
+
+export const addCardLike = (id, token) => {
+
+}
+

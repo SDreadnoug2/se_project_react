@@ -1,11 +1,14 @@
 import "./Header.css";
+import React, {useContext} from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { removeToken } from "../../utils/token";
+import { UserInfoContext } from "../../contexts/UserInfoContext";
+import Avatar from "../Avatar/Avatar";
 
 function Header(props) {
-
+  const userData = useContext(UserInfoContext);
   const navigate = useNavigate();
   function signOut() {
     removeToken();
@@ -16,9 +19,6 @@ function Header(props) {
     month: "long",
     day: "numeric",
   });
-  const addButton = undefined;
-  const name = "bill";
-  const profilePicture = "";
   return (
     <header className="header">
       <div className="header__divide">
@@ -44,15 +44,15 @@ function Header(props) {
           >
             +Add Clothes
           </button>
-          <h3 className="header__text header__name">{props.userData.name}</h3>
+          <h3 className="header__text header__name">{userData.name}</h3>
             <Link to="/profile">
-            <img
-              className="header__profile"
-              src= {`${props.userData.avatar}`}
-              alt="profile picture"
-            ></img>
-            <button type="button" onClick={signOut} className="header__text header__name">Sign Out</button>
-          </Link>
+              <Avatar user={userData}/>
+              {/*<img
+                className="header__profile"
+                src= {`${userData.avatar}`}
+                alt="profile picture"
+              ></img>*/}
+            </Link>
         </>
         )}
         {!props.isLoggedIn && (
