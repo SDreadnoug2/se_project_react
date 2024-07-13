@@ -3,18 +3,14 @@ import React, {useContext} from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { removeToken } from "../../utils/token";
+
 import { UserInfoContext } from "../../contexts/UserInfoContext";
 import Avatar from "../Avatar/Avatar";
 
 function Header(props) {
   const userData = useContext(UserInfoContext);
   const navigate = useNavigate();
-  function signOut() {
-    removeToken();
-    navigate("/");
-    props.setIsLoggedIn(false);
-  }
+
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",

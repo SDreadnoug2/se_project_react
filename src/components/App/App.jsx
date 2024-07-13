@@ -20,6 +20,7 @@ import ProtectedRoute from "../../utils/ProtectedRoute";
 import * as Auth from "../../utils/auth";
 import { setToken, getToken } from "../../utils/token";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import { removeToken } from "../../utils/token";
 
 function App() {
   //form modal
@@ -49,7 +50,7 @@ function App() {
       }).catch(console.error);
       
     }, []);
-
+    
     useEffect(() => {
       if (isLoggedIn && userData._id) {
         getItems()
@@ -142,13 +143,18 @@ function App() {
     Auth.login(email, password).then((data) => {
       if(data.token){
         setToken(data.token);
-        setUserData(data.user);
         setIsLoggedIn(true);
         const redirectPath = location.state?.from?.pathname || "/profile";
         navigate(redirectPath);
       }
     }).catch(console.error);
   };
+// Handle SignOut
+  const signOut = () => {
+    removeToken();
+    navigate("/");
+    setIsLoggedIn(false);
+  }
 
   // HANDLE REGISTER
   const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
@@ -168,6 +174,9 @@ function App() {
 
 // Liking Cards
 const handleCardLike = ({ id, isLiked }) => {
+  console.log("starting");
+  console.log(id);
+  console.log(isLiked);
   const token = localStorage.getItem("jwt");
   !isLiked
     ? addCardLike(id, token)
@@ -264,6 +273,7 @@ const handleCardLike = ({ id, isLiked }) => {
                       <ProtectedRoute isLoggedIn={isLoggedIn} anonymous={false}>
                         <Profile
                           garmentModal={() => openModal("add-garment")}
+                          signOut={signOut}
                           handleImageClick={handleImageClick}
                         />
                       </ProtectedRoute>

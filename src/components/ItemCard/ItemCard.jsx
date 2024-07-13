@@ -4,16 +4,12 @@ import dislikedImage from "../../assets/unliked.png"
 
 function ItemCard(props) {
 
-
-// Create a variable which you then set in `className` for the like button
-//const itemLikeButtonClassName = `...`;
-console.log(props.isLiked)
   function handleLike(e) {
     e.stopPropagation();
-    props.handleCardLike()
+    props.handleCardLike({ id: props.id, isLiked: props.isLiked })
   }
   return (
-    <div className="itemCard" onClick={props.onClick}>
+    <div className="itemCard" onClick={props.handleCardClick}>
       <div className="itemCard__title">
         <div className="itemCard__title_wrapper">
           <h2 className="itemCard__title_text">{props.name}</h2>

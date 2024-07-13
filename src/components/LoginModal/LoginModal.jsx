@@ -2,8 +2,10 @@ import React, { useState, useContext } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import "./LoginModal.css";
+import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 
 const LoginModal = ({handleLogin }) => {
+  const {activeModal, setActiveModal, closeModal} = useContext(ActiveModalContext);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -21,9 +23,8 @@ const LoginModal = ({handleLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onClose();
     handleLogin(data);
-
+    closeModal();
   }
 
   return (

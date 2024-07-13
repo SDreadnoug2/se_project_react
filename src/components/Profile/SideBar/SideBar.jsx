@@ -4,7 +4,7 @@ import { UserInfoContext } from "../../../contexts/UserInfoContext";
 import { ActiveModalContext } from "../../../contexts/ActiveModalContext";
 
 
-function SideBar() {
+function SideBar(props) {
   const userData = useContext(UserInfoContext);
   const { activeModal, setActiveModal}  = useContext(ActiveModalContext);
 
@@ -23,7 +23,7 @@ function SideBar() {
       </div>
       <div className="SideBar___ui">
         <h2 className="SideBar__ui_text" onClick={openEditProfileModal}>Change profile data</h2>
-        <h2 className="SideBar__ui_text">Log Out</h2>
+        <h2 onClick={props.signOut} className="SideBar__ui_text">Log Out</h2>
       </div>
     </div>
   );

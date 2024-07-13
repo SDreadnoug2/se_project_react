@@ -5,7 +5,7 @@ import ClothesSection from "./ClothesSection/ClothesSection";
 function Profile(props) {
   return (
     <div className="Profile">
-      <SideBar />
+      <SideBar signOut={props.signOut} />
       <ClothesSection
         addClothes={props.garmentModal}
         ImageClick={props.handleImageClick}
