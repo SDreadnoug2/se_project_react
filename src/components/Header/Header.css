@@ -8,6 +8,12 @@
 .header__divide {
   display: flex;
   flex-direction: row;
+  align-items: center;
+
+}
+
+.header__right{
+  gap: 20px;
 }
 
 .header__logo {
@@ -16,8 +22,12 @@
 }
 
 .header__text {
-  align-self: center;
   font-size: 20px;
+}
+
+.header__button{
+  border-style: none;
+
 }
 
 .header__name {

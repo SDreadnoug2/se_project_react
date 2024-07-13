@@ -1,28 +1,6 @@
 Need to Fix
 - Form Validation for Registration
-- UI Look
-- In app.jsx, see if moving the useEffect for checkign for a jwt token
-would work inside the useEffect that updates the weather.
 
-
-On page load, you check for a token with getToken()
-If there isn't one just return i.e. continue
-You make a request to your server via the api file,
-The server should be returning the name email and avatar of that token.
-console
-Then set log in to true, and set the user data.
-
-
-- Fix look of login, register and logout buttons on Header and modals
-- I think delete button on modals might be misplaced.
-
-Stopped at editing profile logic.
-Next thing to do is liking api.
-
-Inside ItemCard, there is handleLike.
-- handleLike is a callback function, which executes props.handleLike(), which comes from main.
-- In main, you pass the item card's id, and is liked.
-- Main's handleCardLike is received through props, fom App.jsx.
-- In app.jsx there is the final handleCardike, which communicates with the API.
-- You need to connect the api to the server, you should probably start by figuring out what is 
-being sent or received from the server, and how all this works.
+Bugs
+- On sign up doesn't log in.
+- On login if password is wrong will just close the window and not sign you in.

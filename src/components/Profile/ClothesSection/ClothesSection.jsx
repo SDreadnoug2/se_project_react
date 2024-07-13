@@ -26,6 +26,7 @@ function ClothesSection(props) {
             name={item.name}
             link={item.imageUrl}
             id={props._id}
+            isLiked = {item.likes.some(id => id === userData._id)}
             handleCardLike={() => props.handleCardLike({ id: item._id, isLiked: item.likes.some(id => id === userData._id) })}
             handleCardClick={() =>
               props.ImageClick(item.imageUrl, item.name, item.weather, item._id, item.owner)

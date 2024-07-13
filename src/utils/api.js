@@ -75,28 +75,23 @@ export const editProfile = ({name, avatar}) => {
 }
 
 export const addCardLike = (id, token) => {
-  return fetch(`${baseUrl}/${id}/likes`, {
+  return fetch(`${baseUrl}/items/${id}/likes`, {
     method: "PUT",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-  }).then((res) => {
-    return res.data
   })
-}
-
+  .then(checkResponse)
+};
 export const removeCardLike = (id, token) => {
-  return fetch(`${baseUrl}/${id}/likes`, {
+  return fetch(`${baseUrl}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-  }).then((res) => {
-    return res.data
-  })
+  }).then(checkResponse)
 }
 

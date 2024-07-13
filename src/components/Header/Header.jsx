@@ -29,8 +29,8 @@ function Header(props) {
           {currentDate}, {props.location}
         </h3>
       </div>
-      <div className="header__divide">
-        <ToggleSwitch /> 
+      <div className="header__divide header__right">
+        <ToggleSwitch className="header__button"/> 
         {props.isLoggedIn && (
           <>
             <button
@@ -43,18 +43,13 @@ function Header(props) {
           <h3 className="header__text header__name">{userData.name}</h3>
             <Link to="/profile">
               <Avatar user={userData}/>
-              {/*<img
-                className="header__profile"
-                src= {`${userData.avatar}`}
-                alt="profile picture"
-              ></img>*/}
             </Link>
         </>
         )}
         {!props.isLoggedIn && (
           <>
-            <button type="button" onClick={props.loginModal} className="header__text header__name">Login</button>
-            <button type="button" onClick={props.registerModal} className="header__text header__name">Sign Up</button>
+            <button type="button" onClick={props.loginModal} className="header__button">Login</button>
+            <button type="button" onClick={props.registerModal} className="header__button">Sign Up</button>
           </>                 
         )}
       </div>

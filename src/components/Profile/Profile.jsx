@@ -9,6 +9,7 @@ function Profile(props) {
       <ClothesSection
         addClothes={props.garmentModal}
         ImageClick={props.handleImageClick}
+        handleCardLike={props.handleCardLike}
       ></ClothesSection>
     </div>
   );

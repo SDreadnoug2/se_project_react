@@ -14,8 +14,7 @@
 }
 
 .modal_type_form {
-  width: 496px;
-  height: 436px;
+  min-width: 496px;
   background: white;
   border-radius: 20px;
   border: 1px solid 0.3;
@@ -80,6 +79,21 @@
   line-height: 20px;
   font-family: "CabinetGrotesk-Bold";
   transition: 0.5s;
+}
+
+.modal__button {
+  border-style: none;
+  background: none;
+  font-family: "CabinetGrotesk-Bold";
+  font-size: 16px;
+  opacity: 50%;
+  transition: 0.2s, both;
+}
+
+.modal__button:hover{
+  cursor: pointer;
+  opacity: 100%;
+
 }
 
 .modal__submit_enabled {

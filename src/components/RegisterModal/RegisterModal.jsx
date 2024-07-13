@@ -25,9 +25,7 @@ const RegisterModal = ({handleRegister }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     handleRegister(data);
-    onClose();
   }
 
   return (
