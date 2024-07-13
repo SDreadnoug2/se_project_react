@@ -2,10 +2,10 @@ import React, { useState, useContext } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import "./LoginModal.css";
-import { ActiveModalContext } from "../../contexts/ActiveModalContext";
+import { ErrorMessageContext } from "../../contexts/ErrorMessageContext";
 
 const LoginModal = ({handleLogin }) => {
-  const {activeModal, setActiveModal, closeModal} = useContext(ActiveModalContext);
+  const errorMessage = useContext(ErrorMessageContext);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -23,8 +23,7 @@ const LoginModal = ({handleLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin(data);
-    closeModal();
+      handleLogin(data)
   }
 
   return (
@@ -58,6 +57,7 @@ const LoginModal = ({handleLogin }) => {
           className="modal__input"
           required
         />
+        <span className="modal__input_error">{errorMessage}</span>
       </div>
     </ModalWithForm>
   );

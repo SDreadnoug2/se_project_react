@@ -1,3 +1,6 @@
 .modal__input:last-child{
     margin-bottom: 0;
 }
+.modal__input_error{
+    color: red;
+}

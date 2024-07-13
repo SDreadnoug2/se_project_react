@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
+import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 import "./RegisterModal.css";
 
 const RegisterModal = ({handleRegister }) => {
+  const {closeModal } = useContext(ActiveModalContext);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -25,7 +27,9 @@ const RegisterModal = ({handleRegister }) => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     handleRegister(data);
+    closeModal();
   }
 
   return (

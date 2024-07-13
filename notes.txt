@@ -2,5 +2,4 @@ Need to Fix
 - Form Validation for Registration
 
 Bugs
-- On sign up doesn't log in.
 - On login if password is wrong will just close the window and not sign you in.
