@@ -1,3 +1,4 @@
+// IMPORTS
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Header from "../Header/Header";
@@ -24,7 +25,9 @@ import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import { removeToken } from "../../utils/token";
 import { ErrorMessageContext } from "../../contexts/ErrorMessageContext";
 
+// Main App Function
 function App() {
+
   // STATE AND VARIABLE DECLARATIONS
   const [userData, setUserData] = useState({name: "", email: "", avatar: "", _id: ""});
   const [activeModal, setActiveModal] = useState(null);
@@ -32,16 +35,32 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [deleteCard, setDeleteCard] = useState({});
+  const [climate, setClimate] = useState({
+    temp: { F: "Loading", C: "Loading" },
+    location: "Loading...",
+  });  
+  const [currentTemperatureUnit, setCurentTemperatureUnit] = useState("F");
+  const handleToggleSwitchChange = () => {
+    setCurentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
+  };
   const navigate = useNavigate();
   const location = useLocation();
-  // LOGIN
-  // REGISTRATION
-  // INITIAL PAGE LOAD USE EFFECTS
+
+  // Modal Management
   const openModal = (modalName, modalData) => {
     setActiveModal(modalName);
     setModalInfo(modalData);
   };
 
+  const closeModal = () => {
+    setActiveModal(null);
+    setModalInfo({});
+    setErrorMessage("");
+  };
+
+  // EXISTING USER CONTENT CHECKs / INITIAL PAGE LOAD
+      // Checks for existing user token
   function updateUser(jwt) {
     getUserInfo(jwt).then((res) => {
       const { name, email, avatar, _id } = res.data;
@@ -49,83 +68,31 @@ function App() {
       setUserData({ name, email, avatar, _id });
     }).catch(console.error);
   }
-
-    //Check for JWT
-    useEffect(() => {
-      const jwt = getToken();
-      if (!jwt) {
-        return;
-      }
-      updateUser(jwt)
-    }, []);
-
-    
-
-    useEffect(() => {
-      if (isLoggedIn && userData._id) {
-        getItems()
-          .then((data) => {
-            const userItems = data.filter(item => item.owner === userData._id);
-            setClothingItems(userItems);
-          })
-          .catch((error) => console.error("Failed to fetch items: ", error));
-      } else {
-        getItems()
-          .then((data) => {
-            setClothingItems(data);
-          })
-          .catch((error) => console.error("Failed to fetch items: ", error));
-      }
-    }, [isLoggedIn, userData]);
-
-  const closeModal = () => {
-    setActiveModal(null);
-    setModalInfo({});
-    setErrorMessage("");
-  };
-  const handleImageClick = (link, name, weather, id, owner) => {
-    const owned = owner === userData._id;
-    console.log(owned);  
-    openModal("item-modal", { link, name, weather, id, owner });
-  };
-
-
-  const handleAddItemSubmit = (name, imageUrl, weather) => {
-    createItem(name, imageUrl, weather)
-      .then((res) => {
-        setClothingItems([res.item, ...clothingItems]);
-        closeModal();
-      })
-      .catch((error) => console.error("Failed to add clothing item: ", error));
-  };
-
-  const [deleteCard, setDeleteCard] = useState({});
-  const openConfirmationModal = (id) => {
-    setDeleteCard(id);
-    setActiveModal("delete-modal");
-  };
-
-  const handleItemDelete = () => {
-    const token = getToken()
-    deleteItem(deleteCard, token).then(() => {
-      const updatedItems = clothingItems.filter((item) => item._id !== deleteCard);
-      setClothingItems(updatedItems);
-      setDeleteCard({});
-      closeModal()
-    }).catch((error) =>
-      console.error("Failed to delete card:", error)
-    );
-  };
-
-  //Temp Set + Controls
-  const [climate, setClimate] = useState({
-    temp: { F: "Loading", C: "Loading" },
-    location: "Loading...",
-  });
-
-
-
-  // Initial Page Load
+  useEffect(() => {
+    const jwt = getToken();
+    if (!jwt) {
+      return;
+    }
+    updateUser(jwt)
+  }, []);
+      //Checks for login changes and updates user cards accordingly.
+  useEffect(() => {
+    if (isLoggedIn && userData._id) {
+      getItems()
+        .then((data) => {
+          const userItems = data.filter(item => item.owner === userData._id);
+          setClothingItems(userItems);
+        })
+        .catch((error) => console.error("Failed to fetch items: ", error));
+    } else {
+      getItems()
+        .then((data) => {
+          setClothingItems(data);
+        })
+        .catch((error) => console.error("Failed to fetch items: ", error));
+    }
+  }, [isLoggedIn, userData]);
+      //Fetches weather data from API.
   useEffect(() => {
     getWeatherData()
       .then((data) => {
@@ -139,12 +106,24 @@ function App() {
       .catch((error) => console.error(error));
   }, []);
 
+ // REGISTRATION
+ const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
+  if(password === confirmPassword) {
+    Auth.register(name, avatar, email, password).then((data) => {
+      handleLogin({email, password});
+      closeModal();
+    }).catch((error) => {
+      if (error === 'Error: 409'){
+        setErrorMessage("This user already exists");
+      }
+    });
+  }
+  else {
+    setErrorMessage("Passwords do not match.")
+  }
+ };
 
-  const [currentTemperatureUnit, setCurentTemperatureUnit] = useState("F");
-  const handleToggleSwitchChange = () => {
-    setCurentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
-  };
-  // HANDLE LOGIN
+ // LOGIN
   const handleLogin = ({email, password}) => {
     if(!email || !password) {
       return;
@@ -167,30 +146,48 @@ function App() {
       }
     });
   };
-// Handle SignOut
+    // Handle SignOut
   const signOut = () => {
     removeToken();
     navigate("/");
     setIsLoggedIn(false);
   }
 
-  // HANDLE REGISTER
-  const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
-    if(password === confirmPassword) {
-      Auth.register(name, avatar, email, password).then((data) => {
-        handleLogin({email, password});
+  // CARD MANAGEMENT
+      //executed when card is clicked
+  const handleImageClick = (link, name, weather, id, owner) => {
+    const owned = owner === userData._id;
+    console.log(owned);  
+    openModal("item-modal", { link, name, weather, id, owner });
+  };
+    // Executed on add item submit
+  const handleAddItemSubmit = (name, imageUrl, weather) => {
+    createItem(name, imageUrl, weather)
+      .then((res) => {
+        setClothingItems([res.item, ...clothingItems]);
         closeModal();
-      }).catch((error) => {
-        if (error === 'Error: 409'){
-          setErrorMessage("This user already exists");
-        }
-      });
-    }
-    else {
-      setErrorMessage("Passwords do not match.")
-    }
+      })
+      .catch((error) => console.error("Failed to add clothing item: ", error));
+  };
+    // Makes sure right card is opened when clicked.
+  const openConfirmationModal = (id) => {
+    setDeleteCard(id);
+    setActiveModal("delete-modal");
+  };
+    // Deletes Card
+  const handleItemDelete = () => {
+    const token = getToken()
+    deleteItem(deleteCard, token).then(() => {
+      const updatedItems = clothingItems.filter((item) => item._id !== deleteCard);
+      setClothingItems(updatedItems);
+      setDeleteCard({});
+      closeModal()
+    }).catch((error) =>
+      console.error("Failed to delete card:", error)
+    );
   };
 
+  // PROFILE EDIT
   const onSubmitEdit = ({name, avatar}) => {
     const token = getToken();
     editProfile(token, name, avatar).then((res) => {
@@ -204,25 +201,25 @@ function App() {
   }
 
 
-// Liking Cards
-const handleCardLike = ({ id, isLiked }) => {
-  const token = localStorage.getItem("jwt");
-  !isLiked
-    ? addCardLike(id, token)
-      .then((updatedCard) => {
-        const changedCard = updatedCard.data;
-        setClothingItems(clothingItems.map((item) => (item._id === id ? changedCard : item))
-      );
-      })
-      .catch((err) => console.log(err))
-    : removeCardLike(id, token)
-      .then((updatedCard) => {
-        const changedCard = updatedCard.data
-        setClothingItems(clothingItems.map((item) => (item._id === id ? changedCard : item))
+// LIKING CARDS
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    !isLiked
+      ? addCardLike(id, token)
+        .then((updatedCard) => {
+          const changedCard = updatedCard.data;
+          setClothingItems(clothingItems.map((item) => (item._id === id ? changedCard : item))
         );
-      })
-      .catch((err) => console.log(err));
-};
+        })
+        .catch((err) => console.log(err))
+      : removeCardLike(id, token)
+        .then((updatedCard) => {
+          const changedCard = updatedCard.data
+          setClothingItems(clothingItems.map((item) => (item._id === id ? changedCard : item))
+          );
+        })
+        .catch((err) => console.log(err));
+  };
 
   //Layout
   return (

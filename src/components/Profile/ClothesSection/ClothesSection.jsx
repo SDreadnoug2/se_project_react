@@ -20,7 +20,7 @@ function ClothesSection(props) {
         </button>
       </div>
       <div className="ClothesSection__items">
-        {clothingItems.lenght > 0 ? clothingItems.map((item) => (
+        {clothingItems.length > 0 ? clothingItems.map((item) => (
           <ItemCard
             key={item._id}
             name={item.name}
