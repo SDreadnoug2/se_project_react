@@ -37,7 +37,6 @@
   border: none;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
-  filter: invert(100);
 }
 
 .itemModal__image-container {
@@ -52,9 +51,9 @@
 }
 
 .itemModal__image {
-  max-width: 110%;
-  max-height: 110%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .itemModal__info {

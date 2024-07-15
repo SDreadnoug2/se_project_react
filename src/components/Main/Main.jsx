@@ -37,7 +37,7 @@ function Main(props) {
         Today is {temperature}°{currentTemperatureUnit} / You may want to wear:
       </h2>
       <div className="main__clothingCards">
-        {filteredItems.map((item) => (
+        {filteredItems.length > 0 ? filteredItems.map((item) => (
           <ItemCard
             key={item._id}
             name={item.name}
@@ -55,7 +55,12 @@ function Main(props) {
               )
             }
           />
-        ))}
+        )) : (
+          <h2 className="main__text">
+            Your suggested clothing usually appears here, but there isn't anything suitable!<br />
+            Consider expanding your wardrobe?
+          </h2>
+        )}
       </div>
     </div>
   );

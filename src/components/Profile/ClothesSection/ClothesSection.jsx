@@ -20,7 +20,7 @@ function ClothesSection(props) {
         </button>
       </div>
       <div className="ClothesSection__items">
-        {clothingItems.map((item) => (
+        {clothingItems.lenght > 0 ? clothingItems.map((item) => (
           <ItemCard
             key={item._id}
             name={item.name}
@@ -32,7 +32,9 @@ function ClothesSection(props) {
               props.ImageClick(item.imageUrl, item.name, item.weather, item._id, item.owner)
             }
           />
-        ))}
+        )) : (
+          <h2 className="ClothesSection__text">Add some clothing to get started!</h2>
+        )}
       </div>
     </div>
   );

@@ -17,3 +17,8 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.main__text{
+  color: gray;
+  text-align: center;
+}

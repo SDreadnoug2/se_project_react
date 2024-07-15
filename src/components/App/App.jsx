@@ -59,6 +59,8 @@ function App() {
       updateUser(jwt)
     }, []);
 
+    
+
     useEffect(() => {
       if (isLoggedIn && userData._id) {
         getItems()
@@ -74,7 +76,7 @@ function App() {
           })
           .catch((error) => console.error("Failed to fetch items: ", error));
       }
-    }, [userData, isLoggedIn,]);
+    }, [isLoggedIn, userData]);
 
   const closeModal = () => {
     setActiveModal(null);
@@ -148,7 +150,6 @@ function App() {
       return;
     }
     Auth.login(email, password).then((data) => {
-      console.log(data);
       if(data.token){
         setToken(data.token);
         updateUser(data.token);
@@ -177,7 +178,6 @@ function App() {
   const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
     if(password === confirmPassword) {
       Auth.register(name, avatar, email, password).then((data) => {
-        console.log(data);
         handleLogin({email, password});
         closeModal();
       }).catch((error) => {
@@ -194,27 +194,15 @@ function App() {
   const onSubmitEdit = ({name, avatar}) => {
     const token = getToken();
     editProfile(token, name, avatar).then((res) => {
-      console.log(res);
       setUserData({name: name, avatar: avatar})
+      updateUser(token);
+      closeModal();
+      
     }).catch((error) => {
       console.error(error);
     })
   }
 
-/*
-  const onSubmitEdit = (name, avatar) => {
-    const token = getToken();
-    editProfile(token, name, avatar)
-      .then((data) => {
-        console.log(data);
-        setUserData( name, avatar );
-        closeModal();
-      })
-      .catch((error) => {
-        setErrorMessage(error);
-      });
-  };
-  */
 
 // Liking Cards
 const handleCardLike = ({ id, isLiked }) => {
@@ -223,7 +211,6 @@ const handleCardLike = ({ id, isLiked }) => {
     ? addCardLike(id, token)
       .then((updatedCard) => {
         const changedCard = updatedCard.data;
-        console.log(changedCard);
         setClothingItems(clothingItems.map((item) => (item._id === id ? changedCard : item))
       );
       })

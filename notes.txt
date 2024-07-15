@@ -4,7 +4,6 @@ Fixed
 - I can't delete old cards https://snipboard.io/RrLYaB.jpg
 - The close icon is not visible in the item modal https://snipboard.io/InxOVF.jpg .
 
-Bugs
-
 - You need to insert the profile data into the inputs when you open the profile popup to let the user edit the data and submit it.
+Bugs
 - When I edit the profile, likes stop working
