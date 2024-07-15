@@ -1,5 +1,10 @@
-Need to Fix
-- Form Validation for Registration
+Fixed
+- When I register, it just closes the window and doesn't sign me in.
+- I can't add new cards. It says I'm not authorized, but I am https://snipboard.io/zHbawV.jpg
+- I can't delete old cards https://snipboard.io/RrLYaB.jpg
+- The close icon is not visible in the item modal https://snipboard.io/InxOVF.jpg .
 
 Bugs
-- On login if password is wrong will just close the window and not sign you in.
+
+- You need to insert the profile data into the inputs when you open the profile popup to let the user edit the data and submit it.
+- When I edit the profile, likes stop working

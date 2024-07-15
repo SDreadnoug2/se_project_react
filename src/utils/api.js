@@ -19,7 +19,7 @@ export function getItems() {
     });
   });
 }
-export function createItem({ _id, name, imageUrl, weather }) {
+export function createItem(name, imageUrl, weather) {
   return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
@@ -27,7 +27,6 @@ export function createItem({ _id, name, imageUrl, weather }) {
        authorization: `Bearer ${jwt}`
     },
     body: JSON.stringify({
-      _id,
       name,
       imageUrl,
       weather,
@@ -37,9 +36,14 @@ export function createItem({ _id, name, imageUrl, weather }) {
   });
 }
 
-export function deleteItem(id) {
+export function deleteItem(id, token) {
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
   }).then((res) => {
     return checkResponse(res);
   });
@@ -60,24 +64,25 @@ export const getUserInfo = (token) => {
 }
 
 
-export const editProfile = ({name, avatar}) => {
+export const editProfile = (token, name, avatar) => {
   return fetch(`${baseUrl}/users/me`, {
-      method: "PATCH",
-      headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-      },
-      body: JSON.stringify({ name, avatar})
-  }).then((res) => {
-    return res.data;
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name, avatar})
   })
-}
+  .then((res) => res.json()) 
+  .then((data) => data); 
+};
 
 export const addCardLike = (id, token) => {
   return fetch(`${baseUrl}/items/${id}/likes`, {
     method: "PUT",
     headers: {
+      Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },

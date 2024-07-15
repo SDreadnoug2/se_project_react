@@ -25,7 +25,7 @@ import { removeToken } from "../../utils/token";
 import { ErrorMessageContext } from "../../contexts/ErrorMessageContext";
 
 function App() {
-  //form modal
+  // STATE AND VARIABLE DECLARATIONS
   const [userData, setUserData] = useState({name: "", email: "", avatar: "", _id: ""});
   const [activeModal, setActiveModal] = useState(null);
   const [modalInfo, setModalInfo] = useState({});
@@ -34,6 +34,9 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  // LOGIN
+  // REGISTRATION
+  // INITIAL PAGE LOAD USE EFFECTS
   const openModal = (modalName, modalData) => {
     setActiveModal(modalName);
     setModalInfo(modalData);
@@ -79,20 +82,16 @@ function App() {
     setErrorMessage("");
   };
   const handleImageClick = (link, name, weather, id, owner) => {
+    const owned = owner === userData._id;
+    console.log(owned);  
     openModal("item-modal", { link, name, weather, id, owner });
   };
 
 
-  const handleAddItemSubmit = (name, url, weather) => {
-    const item = {
-      name: name,
-      imageUrl: url,
-      weather: weather,
-      owner: userData._id
-    };
-    createItem(item)
+  const handleAddItemSubmit = (name, imageUrl, weather) => {
+    createItem(name, imageUrl, weather)
       .then((res) => {
-        setClothingItems([res.data, ...clothingItems]);
+        setClothingItems([res.item, ...clothingItems]);
         closeModal();
       })
       .catch((error) => console.error("Failed to add clothing item: ", error));
@@ -105,15 +104,15 @@ function App() {
   };
 
   const handleItemDelete = () => {
-    const id = deleteCard;
-    deleteItem(id).then(() => {
-      const updatedItems = clothingItems.filter((item) => item._id !== id);
+    const token = getToken()
+    deleteItem(deleteCard, token).then(() => {
+      const updatedItems = clothingItems.filter((item) => item._id !== deleteCard);
       setClothingItems(updatedItems);
       setDeleteCard({});
-      closeModal().catch((error) =>
-        console.error("Failed to delete card:", error)
-      );
-    });
+      closeModal()
+    }).catch((error) =>
+      console.error("Failed to delete card:", error)
+    );
   };
 
   //Temp Set + Controls
@@ -180,16 +179,42 @@ function App() {
       Auth.register(name, avatar, email, password).then((data) => {
         console.log(data);
         handleLogin({email, password});
-      }).catch(console.error);
+        closeModal();
+      }).catch((error) => {
+        if (error === 'Error: 409'){
+          setErrorMessage("This user already exists");
+        }
+      });
+    }
+    else {
+      setErrorMessage("Passwords do not match.")
     }
   };
 
-  
-
   const onSubmitEdit = ({name, avatar}) => {
-    editProfile({name, avatar});
-    setUserData({name: name, avatar: avatar})
+    const token = getToken();
+    editProfile(token, name, avatar).then((res) => {
+      console.log(res);
+      setUserData({name: name, avatar: avatar})
+    }).catch((error) => {
+      console.error(error);
+    })
   }
+
+/*
+  const onSubmitEdit = (name, avatar) => {
+    const token = getToken();
+    editProfile(token, name, avatar)
+      .then((data) => {
+        console.log(data);
+        setUserData( name, avatar );
+        closeModal();
+      })
+      .catch((error) => {
+        setErrorMessage(error);
+      });
+  };
+  */
 
 // Liking Cards
 const handleCardLike = ({ id, isLiked }) => {

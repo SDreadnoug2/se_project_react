@@ -16,7 +16,6 @@ const AddItemModal = ({ isOpen, onAddItem}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Added Garment: ${name}, ${imageUrl}, ${weather}`);
     onAddItem(name, imageUrl, weather);
   };
 

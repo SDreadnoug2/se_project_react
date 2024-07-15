@@ -2,9 +2,11 @@ import React, { useContext, useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import { ActiveModalContext } from "../../contexts/ActiveModalContext";
+import { ErrorMessageContext } from "../../contexts/ErrorMessageContext";
 import "./RegisterModal.css";
 
 const RegisterModal = ({handleRegister }) => {
+  const errorMessage = useContext(ErrorMessageContext);
   const {closeModal } = useContext(ActiveModalContext);
   const [data, setData] = useState({
     email: "",
@@ -29,7 +31,6 @@ const RegisterModal = ({handleRegister }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleRegister(data);
-    closeModal();
   }
 
   return (
@@ -96,6 +97,7 @@ const RegisterModal = ({handleRegister }) => {
           className="modal__input"
           required
         />
+        <span className="modal__input_error">{errorMessage}</span>
       </div>
     </ModalWithForm>
   );

@@ -21,7 +21,7 @@ function ModalWithForm(props) {
       }
     };
 
-    const handleMouseUp = (event) => {
+    const handleMouseDown = (event) => {
       if (event.target === modalRef.current) {
         closeModal();
       }
@@ -29,13 +29,13 @@ function ModalWithForm(props) {
 
     window.addEventListener("keydown", handleEsc);
     if (modalRef.current) {
-      modalRef.current.addEventListener("mouseup", handleMouseUp);
+      modalRef.current.addEventListener("mousedown", handleMouseDown);
     }
 
     return () => {
       window.removeEventListener("keydown", handleEsc);
       if (modalRef.current) {
-        modalRef.current.removeEventListener("mouseup", handleMouseUp);
+        modalRef.current.removeEventListener("mousedown", handleMouseDown);
       }
     };
   }, [closeModal]);

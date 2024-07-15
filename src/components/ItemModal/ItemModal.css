@@ -37,6 +37,7 @@
   border: none;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
+  filter: invert(100);
 }
 
 .itemModal__image-container {
