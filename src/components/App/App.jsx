@@ -129,6 +129,7 @@ function App() {
       return;
     }
     Auth.login(email, password).then((data) => {
+      console.log(data.token)
       if(data.token){
         setToken(data.token);
         updateUser(data.token);
@@ -162,7 +163,8 @@ function App() {
   };
     // Executed on add item submit
   const handleAddItemSubmit = (name, imageUrl, weather) => {
-    createItem(name, imageUrl, weather)
+    const token = getToken();
+    createItem(token, name, imageUrl, weather)
       .then((res) => {
         setClothingItems([res.item, ...clothingItems]);
         closeModal();

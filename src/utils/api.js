@@ -19,12 +19,12 @@ export function getItems() {
     });
   });
 }
-export function createItem(name, imageUrl, weather) {
+export function createItem(token, name, imageUrl, weather) {
   return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-       authorization: `Bearer ${jwt}`
+       authorization: `Bearer ${token}`
     },
     body: JSON.stringify({
       name,
@@ -32,6 +32,7 @@ export function createItem(name, imageUrl, weather) {
       weather,
     }),
   }).then((res) => {
+    console.log(res);
     return checkResponse(res);
   });
 }
