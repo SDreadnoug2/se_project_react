@@ -2,7 +2,7 @@ import { getToken } from "./token";
 const baseUrl = "http://localhost:3001";
 const jwt = getToken();
 
-function checkResponse(res) {
+export function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }

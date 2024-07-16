@@ -4,15 +4,9 @@ import { ActiveModalContext} from "../../contexts/ActiveModalContext"
 
 function ModalWithForm(props) {
   const { activeModal, setActiveModal, closeModal}  = useContext(ActiveModalContext);
-  const handleSwitchToLogin = () => setActiveModal("login-modal");
-  const handleSwitchToRegister = () => {
-    console.log(activeModal);
-    setActiveModal("register-modal")
-  console.log(activeModal)};
+
 
   const modalRef = useRef(null);
-
-
 
   useEffect(() => {
     const handleEsc = (event) => {
@@ -63,12 +57,7 @@ function ModalWithForm(props) {
             >
               {props.buttonText}
             </button>
-            {props.title === "Log in" && (
-              <button className="modal__button" type="button" onClick={handleSwitchToRegister}>or Register</button>
-            )}
-            {props.title === "Register" && (
-              <button className="modal__button" type="button" onClick={handleSwitchToLogin}>or Login</button>
-            )}
+              <button className="modal__button" type="button" onClick={props.altButtonHandler}>{props.altButtonText}</button>
           </div>
         </form>
       </div>

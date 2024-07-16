@@ -7,7 +7,7 @@ import "./RegisterModal.css";
 
 const RegisterModal = ({handleRegister }) => {
   const errorMessage = useContext(ErrorMessageContext);
-  const {closeModal } = useContext(ActiveModalContext);
+  const {activeModal, setActiveModal} = useContext(ActiveModalContext);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -19,7 +19,8 @@ const RegisterModal = ({handleRegister }) => {
 // Need to change this as if you just fill out email and pass it'll say its valid.
 // Check useFormValidation
   const isFormValid = useFormValidation(data.email, data.password, true);
-
+  const handleSwitchToLogin = () => setActiveModal("login-modal");
+  
   const handleChange = (e) => {
     const {name, value} = e.target;
     setData((prevData) => ({
@@ -40,6 +41,8 @@ const RegisterModal = ({handleRegister }) => {
       buttonText="Next"
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
+      altButtonHandler={handleSwitchToLogin}
+      altButtonText={"or Login"}
     >
       <div className="modal__text_container">
         <label htmlFor="email">Email</label>

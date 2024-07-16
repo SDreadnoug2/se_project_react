@@ -7,6 +7,7 @@ import { UserInfoContext } from "../../../contexts/UserInfoContext";
 function ClothesSection(props) {
   const userData = useContext(UserInfoContext);
   const { clothingItems } = useContext(ClothingListContext);
+  const userItems = clothingItems.filter(item => item.owner === userData._id);
   return (
     <div className="ClothesSection">
       <div className="ClothesSection__wrapper-text">
@@ -20,7 +21,7 @@ function ClothesSection(props) {
         </button>
       </div>
       <div className="ClothesSection__items">
-        {clothingItems.length > 0 ? clothingItems.map((item) => (
+        {userItems.length > 0 ? userItems.map((item) => (         
           <ItemCard
             key={item._id}
             name={item.name}

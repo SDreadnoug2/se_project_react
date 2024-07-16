@@ -18,7 +18,7 @@ import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 import { UserInfoContext } from "../../contexts/UserInfoContext";
 import { isLoggedInContext} from "../../contexts/isLoggedInContext"
 import { getItems, createItem, deleteItem, getUserInfo, editProfile, addCardLike, removeCardLike} from "../../utils/api";
-import ProtectedRoute from "../../utils/ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute"
 import * as Auth from "../../utils/auth";
 import { setToken, getToken } from "../../utils/token";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
@@ -77,20 +77,12 @@ function App() {
   }, []);
       //Checks for login changes and updates user cards accordingly.
   useEffect(() => {
-    if (isLoggedIn && userData._id) {
-      getItems()
-        .then((data) => {
-          const userItems = data.filter(item => item.owner === userData._id);
-          setClothingItems(userItems);
-        })
-        .catch((error) => console.error("Failed to fetch items: ", error));
-    } else {
       getItems()
         .then((data) => {
           setClothingItems(data);
         })
         .catch((error) => console.error("Failed to fetch items: ", error));
-    }
+    
   }, [isLoggedIn, userData]);
       //Fetches weather data from API.
   useEffect(() => {
@@ -239,7 +231,6 @@ function App() {
                       garmentModal={() => openModal("add-garment")}
                       loginModal={() => openModal("login-modal")}
                       registerModal={() => openModal("register-modal")}
-                      userData={userData}
                       setIsLoggedIn={setIsLoggedIn}
                       isLoggedIn={isLoggedIn}
                     />

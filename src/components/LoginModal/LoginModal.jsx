@@ -3,13 +3,18 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useFormValidation from "../../utils/formValidation";
 import "./LoginModal.css";
 import { ErrorMessageContext } from "../../contexts/ErrorMessageContext";
+import { ActiveModalContext } from "../../contexts/ActiveModalContext";
 
 const LoginModal = ({handleLogin }) => {
+  const {activeModal, setActiveModal} = useContext(ActiveModalContext);
   const errorMessage = useContext(ErrorMessageContext);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  const handleSwitchToRegister = () => setActiveModal("register-modal");
+
 
   const isFormValid = useFormValidation(data.email, data.password, true);
 
@@ -25,7 +30,7 @@ const LoginModal = ({handleLogin }) => {
     e.preventDefault();
       handleLogin(data)
   }
-
+  //props.altButtonHandler}>{props.altButtonText
   return (
     <ModalWithForm
       name="form"
@@ -33,6 +38,8 @@ const LoginModal = ({handleLogin }) => {
       buttonText="Log In"
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
+      altButtonHandler={handleSwitchToRegister}
+      altButtonText={"or Register"}
     >
       <div className="modal__text_container">
         <label htmlFor="email">Email</label>
