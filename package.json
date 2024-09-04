@@ -1,5 +1,5 @@
 {
-  "homepage": "https://SDreadnoug2.github.io/se_project_react/",
+  "homepage": "https://wtwrmil.crabdance.com",
   "name": "wtwr",
   "private": true,
   "version": "0.0.0",
@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && scp -r ./dist/* miltonnick747@wtwrmil.crabdance.com:/home/miltonnick747/frontend"
   },
   "dependencies": {
     "normalize.css": "^8.0.1",
