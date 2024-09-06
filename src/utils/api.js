@@ -1,6 +1,6 @@
 import { getToken } from "./token";
 export const baseUrl = process.env.NODE_ENV === "production" 
-? "api.wtwrmil.crabdance.com" 
+? "https://api.wtwrmil.crabdance.com" 
 : "http://localhost:3001";
 const jwt = getToken();
 
