@@ -53,7 +53,7 @@ const LoginModal = ({handleLogin }) => {
           className="modal__input"
           required
         />
-        <label htmlFor="password">Image</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"

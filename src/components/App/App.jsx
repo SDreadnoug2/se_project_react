@@ -20,11 +20,10 @@ import { isLoggedInContext} from "../../contexts/isLoggedInContext"
 import { getItems, createItem, deleteItem, getUserInfo, editProfile, addCardLike, removeCardLike} from "../../utils/api";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute"
 import * as Auth from "../../utils/auth";
-import { setToken, getToken } from "../../utils/token";
+import { setToken, getToken, removeToken } from "../../utils/token";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
-import { removeToken } from "../../utils/token";
 import { ErrorMessageContext } from "../../contexts/ErrorMessageContext";
-
+import { isLoadingContext } from "../../contexts/isLoadingContext";
 // Main App Function
 function App() {
 
@@ -40,6 +39,9 @@ function App() {
     temp: { F: "Loading", C: "Loading" },
     location: "Loading...",
   });  
+  const [cardsLoading, setCardsLoading] = useState(true);
+  const [weatherLoading, setWeatherLoading] = useState(true)
+  const [infoLoading, setInfoLoading] = useState(true);
   const [currentTemperatureUnit, setCurentTemperatureUnit] = useState("F");
   const handleToggleSwitchChange = () => {
     setCurentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
@@ -72,16 +74,22 @@ function App() {
     const jwt = getToken();
     if (!jwt) {
       return;
-    }
+    } 
     updateUser(jwt)
   }, []);
+
       //Checks for login changes and updates user cards accordingly.
   useEffect(() => {
+    setCardsLoading(true);
       getItems()
         .then((data) => {
           setClothingItems(data);
+          setCardsLoading(false);
         })
-        .catch((error) => console.error("Failed to fetch items: ", error));
+        .catch((error) => {
+          console.error("Failed to fetch items: ", error)
+          setCardsLoading(false);
+        });
     
   }, [isLoggedIn, userData]);
       //Fetches weather data from API.
@@ -97,6 +105,17 @@ function App() {
       })
       .catch((error) => console.error(error));
   }, []);
+
+  //Loading
+  useEffect(() => {
+    setInfoLoading(true);
+    console.log(infoLoading);
+    if(!cardsLoading && !weatherLoading){
+      setInfoLoading(false);
+      console.log(infoLoading)
+    }
+    },[cardsLoading, weatherLoading])
+    
 
  // REGISTRATION
  const handleRegister = ({email, password, confirmPassword, name, avatar}) => {
@@ -118,6 +137,7 @@ function App() {
  // LOGIN
   const handleLogin = ({email, password}) => {
     if(!email || !password) {
+      setErrorMessage("Please fill out both fields.")
       return;
     }
     Auth.login(email, password).then((data) => {
@@ -132,7 +152,7 @@ function App() {
       }
     }).catch((error) => {
       console.log(error);
-      if(error === "Error: 401"){
+      if(error === "Error 400"){
       setErrorMessage("Incorrect Email or Password")
       } else {
         setErrorMessage("Unkown Error");
@@ -218,105 +238,107 @@ function App() {
   //Layout
   return (
     <div className="App">
-      <ActiveModalContext.Provider value={{activeModal, setActiveModal, closeModal}}>
-        <CurrentTemperatureUnitContext.Provider
-          value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-        >
-          <ClothingListContext.Provider value={{ clothingItems }}>
-              <UserInfoContext.Provider value={userData}>
-                <isLoggedInContext.Provider value={isLoggedIn}>
-                  <ErrorMessageContext.Provider value={errorMessage}>
-                    <Header
-                      location={climate.location}
-                      garmentModal={() => openModal("add-garment")}
-                      loginModal={() => openModal("login-modal")}
-                      registerModal={() => openModal("register-modal")}
-                      setIsLoggedIn={setIsLoggedIn}
-                      isLoggedIn={isLoggedIn}
-                    />
-                    {activeModal === "register-modal" && (
-                      <RegisterModal
-                        onClose={closeModal}
-                        handleRegister={handleRegister}
-                        />
-                    )}
-                    {activeModal === "edit-profile-modal" && (
-                      <EditProfileModal 
-                      onSubmitEdit={onSubmitEdit}/>
-                    )}
-                    {activeModal === "delete-modal" && (
-                      <ConfirmDeleteModal
-                        onClose={closeModal}
-                        onConfirm={handleItemDelete}
+      <isLoadingContext.Provider value={infoLoading}>
+        <ActiveModalContext.Provider value={{activeModal, setActiveModal, closeModal}}>
+          <CurrentTemperatureUnitContext.Provider
+            value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+          >
+            <ClothingListContext.Provider value={{ clothingItems }}>
+                <UserInfoContext.Provider value={userData}>
+                  <isLoggedInContext.Provider value={isLoggedIn}>
+                    <ErrorMessageContext.Provider value={errorMessage}>
+                      <Header
+                        location={climate.location}
+                        garmentModal={() => openModal("add-garment")}
+                        loginModal={() => openModal("login-modal")}
+                        registerModal={() => openModal("register-modal")}
+                        setIsLoggedIn={setIsLoggedIn}
+                        isLoggedIn={isLoggedIn}
                       />
-                    )}
-                    {activeModal === "login-modal" && (
-                      <LoginModal
-                        onClose={closeModal}
-                        handleLogin={handleLogin}
-                      />
-                    )}
-                    {activeModal === "add-garment" && (
-                      <AddItemModal
-                        isOpen={activeModal}
-                        onAddItem={handleAddItemSubmit}
-                        onCloseModal={closeModal}
-                      />
-                    )}
-                    {activeModal === "item-modal" && (
-                      <ItemModal
-                        image={modalInfo.link}
-                        name={modalInfo.name}
-                        weather={modalInfo.weather}
-                        id={modalInfo.id}
-                        owner={modalInfo.owner}
-                        onClose={closeModal}
-                        onDelete={openConfirmationModal}
-                        onConfirm={handleItemDelete}
-                      />
-                    )}
-                    <Routes>
-                      <Route
-                        path="/"
-                        element={
-                          <Main
-                            temp={climate}
-                            handleImageClick={handleImageClick}
-                            onRemove={handleItemDelete}
-                            handleCardLike={handleCardLike}
+                      {activeModal === "register-modal" && (
+                        <RegisterModal
+                          onClose={closeModal}
+                          handleRegister={handleRegister}
                           />
-                        }
-                      />
-                      <Route
-                        path="/profile"
-                        element={
-                          <ProtectedRoute isLoggedIn={isLoggedIn} anonymous={false}>
-                            <Profile
-                              garmentModal={() => openModal("add-garment")}
-                              signOut={signOut}
+                      )}
+                      {activeModal === "edit-profile-modal" && (
+                        <EditProfileModal 
+                        onSubmitEdit={onSubmitEdit}/>
+                      )}
+                      {activeModal === "delete-modal" && (
+                        <ConfirmDeleteModal
+                          onClose={closeModal}
+                          onConfirm={handleItemDelete}
+                        />
+                      )}
+                      {activeModal === "login-modal" && (
+                        <LoginModal
+                          onClose={closeModal}
+                          handleLogin={handleLogin}
+                        />
+                      )}
+                      {activeModal === "add-garment" && (
+                        <AddItemModal
+                          isOpen={activeModal}
+                          onAddItem={handleAddItemSubmit}
+                          onCloseModal={closeModal}
+                        />
+                      )}
+                      {activeModal === "item-modal" && (
+                        <ItemModal
+                          image={modalInfo.link}
+                          name={modalInfo.name}
+                          weather={modalInfo.weather}
+                          id={modalInfo.id}
+                          owner={modalInfo.owner}
+                          onClose={closeModal}
+                          onDelete={openConfirmationModal}
+                          onConfirm={handleItemDelete}
+                        />
+                      )}
+                      <Routes>
+                        <Route
+                          path="/"
+                          element={
+                            <Main
+                              temp={climate}
                               handleImageClick={handleImageClick}
+                              onRemove={handleItemDelete}
                               handleCardLike={handleCardLike}
                             />
-                          </ProtectedRoute>
-                        }
-                      />
-                      <Route
-                        path="*"
-                        element={
-                          isLoggedIn ? (
-                            <Navigate to="/profile" replace /> 
-                          ) : (<Navigate to="/" replace/>)
-                        } 
-                      />
-                    </Routes>
-                    <Footer />
-                  </ErrorMessageContext.Provider>
-                </isLoggedInContext.Provider>
-              </UserInfoContext.Provider>
+                          }
+                        />
+                        <Route
+                          path="/profile"
+                          element={
+                            <ProtectedRoute isLoggedIn={isLoggedIn} anonymous={false}>
+                              <Profile
+                                garmentModal={() => openModal("add-garment")}
+                                signOut={signOut}
+                                handleImageClick={handleImageClick}
+                                handleCardLike={handleCardLike}
+                              />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="*"
+                          element={
+                            isLoggedIn ? (
+                              <Navigate to="/profile" replace /> 
+                            ) : (<Navigate to="/" replace/>)
+                          } 
+                        />
+                      </Routes>
+                      <Footer />
+                    </ErrorMessageContext.Provider>
+                  </isLoggedInContext.Provider>
+                </UserInfoContext.Provider>
 
-          </ClothingListContext.Provider>
-        </CurrentTemperatureUnitContext.Provider>
-      </ActiveModalContext.Provider>
+            </ClothingListContext.Provider>
+          </CurrentTemperatureUnitContext.Provider>
+        </ActiveModalContext.Provider>
+        </isLoadingContext.Provider>
     </div>
   );
 }

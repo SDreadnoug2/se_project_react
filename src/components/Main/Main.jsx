@@ -5,6 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { ClothingListContext } from "../../contexts/ClothingListContext";
 import { UserInfoContext } from "../../contexts/UserInfoContext";
+import { isLoadingContext } from "../../contexts/isLoadingContext";
 
 function Main(props) {
   const { currentTemperatureUnit } = React.useContext(
@@ -14,7 +15,7 @@ function Main(props) {
   const { clothingItems } = useContext(ClothingListContext);
   const [filteredItems, setFilteredItems] = useState([]);
   const temperature = currentTemperatureUnit === "F" ? props.temp.F : props.temp.C;
-
+  const loadingStatus = { isLoadingContext };
   useEffect(() => {
     let weatherCondition = "";
     if (props.temp.F > 80) {
@@ -32,6 +33,11 @@ function Main(props) {
 
   return (
     <div className="main">
+      {!loadingStatus && (
+        <div className="main__loading">
+          <div className="main__spinner"></div>
+        </div>
+      )}
       <WeatherCard temp={temperature} />
       <h2 className="main__temperature">
         Today is {temperature}°{currentTemperatureUnit} / You may want to wear:
