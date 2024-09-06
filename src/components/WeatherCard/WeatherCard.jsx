@@ -1,9 +1,9 @@
 import "./WeatherCard.css";
 import React, { useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import weatherImage from "../../../public/assets/PartialClouds.png"
 
 function WeatherCard(props) {
-  const currentWeather = "../src/assets/PartialClouds.png";
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
@@ -12,7 +12,7 @@ function WeatherCard(props) {
     <div className="weatherCard">
       <img
         className="weatherCard__image"
-        src={"./src/assets/PartialClouds.png"}
+        src={weatherImage}
         alt="image"
       />
       <h1 className="weatherCard__temperature">

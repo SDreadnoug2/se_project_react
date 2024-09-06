@@ -1,7 +1,7 @@
 import "./ItemCard.css";
 import React, {useContext} from "react";
-import likedImage from "../../assets/liked.png"
-import dislikedImage from "../../assets/unliked.png"
+import likedImage from "../../../public/assets/liked.png"
+import dislikedImage from "../../../public/assets/unliked.png"
 import { isLoggedInContext } from "../../contexts/isLoggedInContext";
 function ItemCard(props) {
   const isLoggedIn = React.useContext(isLoggedInContext)

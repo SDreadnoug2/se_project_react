@@ -3,7 +3,7 @@ import React, {useContext} from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import headerLogo from '../../../public/assets/Logo.png'
 import { UserInfoContext } from "../../contexts/UserInfoContext";
 import Avatar from "../Avatar/Avatar";
 
@@ -21,7 +21,7 @@ function Header(props) {
         <Link to="/">
           <img
             className="header__logo"
-            src="./src/assets/Logo.png"
+            src={headerLogo}
             alt="wtwr logo"
           />
         </Link>

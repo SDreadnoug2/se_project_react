@@ -26,7 +26,7 @@
 }
 
 .itemModal__button {
-  background-image: url(/src/assets/close_button_white.png);
+  background-image: url(/public/assets/close_button_white.png);
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;

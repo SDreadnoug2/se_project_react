@@ -61,7 +61,7 @@
 }
 
 .confirm__close-button {
-  background-image: url(/src/assets/close_button.png);
+  background-image: url(/public/assets/close_button.png);
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
